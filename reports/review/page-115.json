@@ -21,6 +21,12 @@
     "low": 33,
     "uncertain": 2
   },
+  "priority_counts": {
+    "high": 8,
+    "medium": 22,
+    "low": 0,
+    "alignment_only": 5
+  },
   "segments": [
     {
       "id": "S001",
@@ -29,6 +35,10 @@
         3
       ],
       "agreement": "low",
+      "review_priority": "alignment_only",
+      "priority_reasons": [
+        "text_stable_but_alignment_incomplete"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -97,6 +107,10 @@
         4
       ],
       "agreement": "low",
+      "review_priority": "high",
+      "priority_reasons": [
+        "repeated_suspicious_token_in_well_aligned_readings"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [],
@@ -164,6 +178,10 @@
         6
       ],
       "agreement": "low",
+      "review_priority": "medium",
+      "priority_reasons": [
+        "exact_consensus_with_lexical_outlier"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -257,6 +275,10 @@
         8
       ],
       "agreement": "low",
+      "review_priority": "medium",
+      "priority_reasons": [
+        "exact_consensus_with_lexical_outlier"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -334,6 +356,10 @@
         9
       ],
       "agreement": "low",
+      "review_priority": "medium",
+      "priority_reasons": [
+        "exact_consensus_with_lexical_outlier"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -399,6 +425,10 @@
         11
       ],
       "agreement": "low",
+      "review_priority": "high",
+      "priority_reasons": [
+        "repeated_suspicious_token_in_well_aligned_readings"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -467,6 +497,10 @@
         12
       ],
       "agreement": "low",
+      "review_priority": "high",
+      "priority_reasons": [
+        "competing_numeric_readings"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -556,6 +590,10 @@
         13
       ],
       "agreement": "low",
+      "review_priority": "alignment_only",
+      "priority_reasons": [
+        "text_stable_but_alignment_incomplete"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -625,6 +663,10 @@
         14
       ],
       "agreement": "low",
+      "review_priority": "medium",
+      "priority_reasons": [
+        "exact_consensus_with_lexical_outlier"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -697,6 +739,10 @@
         15
       ],
       "agreement": "low",
+      "review_priority": "high",
+      "priority_reasons": [
+        "repeated_suspicious_token_in_well_aligned_readings"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -771,6 +817,10 @@
         17
       ],
       "agreement": "low",
+      "review_priority": "medium",
+      "priority_reasons": [
+        "exact_consensus_with_lexical_outlier"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -837,6 +887,10 @@
         20
       ],
       "agreement": "low",
+      "review_priority": "medium",
+      "priority_reasons": [
+        "exact_consensus_with_lexical_outlier"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -903,6 +957,10 @@
         22
       ],
       "agreement": "low",
+      "review_priority": "medium",
+      "priority_reasons": [
+        "near_consensus_with_outlier"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -961,6 +1019,10 @@
         24
       ],
       "agreement": "low",
+      "review_priority": "high",
+      "priority_reasons": [
+        "repeated_suspicious_token_in_well_aligned_readings"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -1037,6 +1099,10 @@
         25
       ],
       "agreement": "low",
+      "review_priority": "medium",
+      "priority_reasons": [
+        "exact_consensus_with_lexical_outlier"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -1113,6 +1179,10 @@
         26
       ],
       "agreement": "low",
+      "review_priority": "high",
+      "priority_reasons": [
+        "repeated_suspicious_token_in_well_aligned_readings"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -1189,6 +1259,10 @@
         27
       ],
       "agreement": "low",
+      "review_priority": "medium",
+      "priority_reasons": [
+        "exact_consensus_with_lexical_outlier"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -1254,6 +1328,10 @@
         30
       ],
       "agreement": "low",
+      "review_priority": "medium",
+      "priority_reasons": [
+        "exact_consensus_with_lexical_outlier"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -1340,6 +1418,10 @@
         32
       ],
       "agreement": "uncertain",
+      "review_priority": "high",
+      "priority_reasons": [
+        "repeated_suspicious_token_in_well_aligned_readings"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -1400,6 +1482,10 @@
         34
       ],
       "agreement": "low",
+      "review_priority": "medium",
+      "priority_reasons": [
+        "exact_consensus_with_lexical_outlier"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -1465,6 +1551,10 @@
         36
       ],
       "agreement": "low",
+      "review_priority": "alignment_only",
+      "priority_reasons": [
+        "text_stable_but_alignment_incomplete"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -1535,6 +1625,10 @@
         38
       ],
       "agreement": "low",
+      "review_priority": "high",
+      "priority_reasons": [
+        "repeated_suspicious_token_in_well_aligned_readings"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -1612,6 +1706,10 @@
         40
       ],
       "agreement": "low",
+      "review_priority": "medium",
+      "priority_reasons": [
+        "exact_consensus_with_lexical_outlier"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -1689,6 +1787,10 @@
         41
       ],
       "agreement": "low",
+      "review_priority": "medium",
+      "priority_reasons": [
+        "near_consensus_with_outlier"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -1758,6 +1860,10 @@
         42
       ],
       "agreement": "low",
+      "review_priority": "medium",
+      "priority_reasons": [
+        "near_consensus_with_outlier"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -1817,6 +1923,10 @@
         45
       ],
       "agreement": "low",
+      "review_priority": "alignment_only",
+      "priority_reasons": [
+        "text_stable_but_alignment_incomplete"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -1879,6 +1989,10 @@
         47
       ],
       "agreement": "low",
+      "review_priority": "medium",
+      "priority_reasons": [
+        "exact_consensus_with_lexical_outlier"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -1946,6 +2060,10 @@
         49
       ],
       "agreement": "low",
+      "review_priority": "medium",
+      "priority_reasons": [
+        "exact_consensus_with_lexical_outlier"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -2029,6 +2147,10 @@
         50
       ],
       "agreement": "uncertain",
+      "review_priority": "alignment_only",
+      "priority_reasons": [
+        "text_stable_but_alignment_incomplete"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -2087,6 +2209,10 @@
         51
       ],
       "agreement": "low",
+      "review_priority": "medium",
+      "priority_reasons": [
+        "exact_consensus_with_lexical_outlier"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -2161,6 +2287,10 @@
         53
       ],
       "agreement": "low",
+      "review_priority": "medium",
+      "priority_reasons": [
+        "exact_consensus_with_lexical_outlier"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -2233,6 +2363,10 @@
         55
       ],
       "agreement": "low",
+      "review_priority": "medium",
+      "priority_reasons": [
+        "exact_consensus_with_lexical_outlier"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -2300,6 +2434,10 @@
         57
       ],
       "agreement": "low",
+      "review_priority": "medium",
+      "priority_reasons": [
+        "exact_consensus_with_lexical_outlier"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -2369,6 +2507,10 @@
         58
       ],
       "agreement": "low",
+      "review_priority": "medium",
+      "priority_reasons": [
+        "exact_consensus_with_lexical_outlier"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [
@@ -2451,6 +2593,10 @@
         62
       ],
       "agreement": "low",
+      "review_priority": "medium",
+      "priority_reasons": [
+        "exact_consensus_with_lexical_outlier"
+      ],
       "readings": {
         "internet_archive": {
           "line_numbers": [

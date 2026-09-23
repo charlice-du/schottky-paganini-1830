@@ -7,6 +7,8 @@ from scripts.build_review_packet import (
     alignment_key,
     comparison_text,
     numbered_lines,
+    ordered_review_segments,
+    review_priority,
     segment_flags,
 )
 
@@ -70,6 +72,103 @@ class ReviewPacketTests(unittest.TestCase):
         self.assertIn("possible_ocr_artifact", categories)
         self.assertIn("suspicious_internal_symbol", categories)
         self.assertIn("possible_digit_letter_confusion", categories)
+
+    def test_three_close_candidates_and_one_outlier_are_medium(self):
+        readings = {
+            f"model_{i}": {"text": "Die Musik erklingt heute sehr schön", "alignment": "aligned"}
+            for i in range(3)
+        }
+        readings["model_3"] = {
+            "text": "Ein völlig anderer Satz steht an dieser Stelle",
+            "alignment": "aligned",
+        }
+        self.assertEqual(review_priority(readings)[0], "medium")
+
+    def test_small_word_typo_against_exact_consensus_is_medium(self):
+        readings = {
+            "a": {"text": "zahlreiche kleinliche Anekdoten von ihm", "alignment": "anchor"},
+            "b": {"text": "zahlreiche kleinliche Anekdoten von ihm", "alignment": "aligned"},
+            "c": {"text": "zahlreiche kleinliche Anefdoten von ihm", "alignment": "aligned"},
+        }
+        self.assertEqual(review_priority(readings)[0], "medium")
+
+    def test_punctuation_only_disagreement_is_low(self):
+        readings = {
+            "a": {"text": "Die Musik, und der Ton.", "alignment": "anchor"},
+            "b": {"text": "Die Musik; und der Ton!", "alignment": "aligned"},
+        }
+        self.assertEqual(review_priority(readings)[0], "low")
+
+    def test_line_end_hyphen_only_disagreement_is_low(self):
+        readings = {
+            "a": {"text": "Pagani-\nni spielt Violine", "alignment": "anchor"},
+            "b": {"text": "Paganini spielt Violine", "alignment": "aligned"},
+        }
+        self.assertEqual(review_priority(readings)[0], "low")
+
+    def test_substantial_lexical_conflict_is_high(self):
+        readings = {
+            "a": {"text": "Paganini spielte ein Konzert in Paris", "alignment": "anchor"},
+            "b": {"text": "Mazas schrieb mehrere Briefe aus Berlin", "alignment": "aligned"},
+        }
+        self.assertEqual(review_priority(readings)[0], "high")
+
+    def test_conflicting_numbers_are_high_despite_similar_surrounding_text(self):
+        readings = {
+            "a": {"text": "Prag den 4. Dezember 46253, Abends 10 Uhr", "alignment": "anchor"},
+            "b": {"text": "Prag den 4. Dezember 4823, Abends 10 Uhr", "alignment": "aligned"},
+            "c": {"text": "Prag den 4. Dezember 1328, Abends 10 Uhr", "alignment": "aligned"},
+        }
+        self.assertEqual(review_priority(readings)[0], "high")
+
+    def test_single_digit_heading_difference_is_not_automatically_high(self):
+        readings = {
+            "a": {"text": "1. Zur Einleitung", "alignment": "anchor"},
+            "b": {"text": "2. Zur Einleitung", "alignment": "aligned"},
+        }
+        self.assertNotEqual(review_priority(readings)[0], "high")
+
+    def test_same_long_number_with_different_short_marker_is_not_numeric_high(self):
+        readings = {
+            "a": {"text": "Im Jahre 1823 stand Anmerkung 1 hier", "alignment": "anchor"},
+            "b": {"text": "Im Jahre 1823 stand Anmerkung 2 hier", "alignment": "aligned"},
+        }
+        self.assertNotIn("competing_numeric_readings", review_priority(readings)[1])
+
+    def test_uncertain_noisy_candidate_is_alignment_only(self):
+        readings = {
+            "a": {"text": "Die Musik erklingt heute", "alignment": "anchor"},
+            "b": {"text": "Die Musik erklingt heute", "alignment": "aligned"},
+            "c": {"text": "Die Musik erklingt heute", "alignment": "aligned"},
+            "noisy": {"text": "3u$|# 99", "alignment": "uncertain"},
+        }
+        self.assertEqual(review_priority(readings)[0], "alignment_only")
+
+    def test_repeated_artifact_in_aligned_readings_is_high(self):
+        readings = {
+            "a": {"text": "ho<hbe- heute", "alignment": "anchor"},
+            "b": {"text": "ho<hbe- heute", "alignment": "aligned"},
+            "c": {"text": "hochbe heute", "alignment": "aligned"},
+        }
+        self.assertEqual(review_priority(readings)[0], "high")
+
+    def test_priority_order_is_deterministic(self):
+        segments = [
+            {"id": "S004", "review_priority": "low"},
+            {"id": "S003", "review_priority": "high"},
+            {"id": "S002", "review_priority": "alignment_only"},
+            {"id": "S001", "review_priority": "high"},
+            {"id": "S005", "review_priority": "medium"},
+        ]
+        expected = ["S001", "S003", "S005", "S004", "S002"]
+        self.assertEqual(
+            [segment["id"] for segment in ordered_review_segments(segments)],
+            expected,
+        )
+        self.assertEqual(
+            [segment["id"] for segment in ordered_review_segments(list(reversed(segments)))],
+            expected,
+        )
 
 
 if __name__ == "__main__":

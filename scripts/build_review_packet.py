@@ -24,6 +24,7 @@ TYPOGRAPHIC = str.maketrans(
 SUSPECT_SYMBOLS = set("<>[]{}^$@|")
 SUSPECT_INTERNAL = SUSPECT_SYMBOLS | set(":?")
 LINE_END_HYPHENS = ("-", "‐", "‑", "=")
+PRIORITY_ORDER = {"high": 0, "medium": 1, "low": 2, "alignment_only": 3}
 
 
 @dataclass(frozen=True)
@@ -277,6 +278,111 @@ def segment_flags(readings: dict[str, dict]) -> tuple[str, list[dict]]:
     return agreement, flags
 
 
+def lexical_key(value: str) -> str:
+    """Comparison-only key that also joins ordinary line-end hyphenation."""
+    normalized = comparison_text(value)
+    joined = re.sub(r"(?<=\w)[-‐‑=]\s+(?=\w)", "", normalized)
+    return " ".join(alignment_key(joined).split())
+
+
+def has_digit_letter_pair(token: str) -> bool:
+    return any(
+        (left.isalpha() and right.isdigit())
+        or (left.isdigit() and right.isalpha())
+        for left, right in zip(token, token[1:])
+    )
+
+
+def review_priority(readings: dict[str, dict]) -> tuple[str, list[str]]:
+    """Rank inspection effort, never OCR correctness or transcription confidence."""
+    trusted = {
+        name: item["text"]
+        for name, item in readings.items()
+        if item["alignment"] in {"anchor", "aligned"} and item["text"]
+    }
+    incomplete_alignment = any(
+        item["alignment"] in {"uncertain", "unaligned"}
+        for item in readings.values()
+    )
+    if len(trusted) < 2:
+        return "alignment_only", ["fewer_than_two_well_aligned_readings"]
+
+    keys = [lexical_key(text) for text in trusted.values()]
+    artifact_support: dict[str, set[str]] = {}
+    for name, text in trusted.items():
+        for token in re.findall(r"\S+", text):
+            suspect = (
+                any(char in SUSPECT_SYMBOLS for char in token)
+                or has_digit_letter_pair(token)
+            )
+            if suspect and len(token) >= 3 and any(char.isalnum() for char in token):
+                artifact_support.setdefault(comparison_text(token), set()).add(name)
+    if any(len(names) >= 2 for names in artifact_support.values()):
+        return "high", ["repeated_suspicious_token_in_well_aligned_readings"]
+
+    single_artifact = bool(artifact_support)
+    numeric_readings = [tuple(re.findall(r"\d+", text)) for text in trusted.values()]
+    long_number_sequences = [
+        tuple(number for number in numbers if len(number) >= 3)
+        for numbers in numeric_readings
+    ]
+    if (
+        any(long_number_sequences)
+        and sum(bool(numbers) for numbers in numeric_readings) >= 2
+        and len(set(long_number_sequences)) > 1
+    ):
+        return "high", ["competing_numeric_readings"]
+    if len(set(keys)) == 1:
+        if single_artifact:
+            return "medium", ["isolated_suspicious_token"]
+        if incomplete_alignment:
+            return "alignment_only", ["text_stable_but_alignment_incomplete"]
+        return "low", ["formatting_only_or_identical"]
+
+    support = Counter(keys)
+    if sum(count >= 2 for count in support.values()) >= 2:
+        return "high", ["competing_supported_lexical_readings"]
+    if max(support.values()) > len(keys) / 2:
+        return "medium", ["exact_consensus_with_lexical_outlier"]
+
+    pair_scores = []
+    for index, left in enumerate(keys):
+        for right in keys[index + 1 :]:
+            char_ratio = SequenceMatcher(None, left, right, autojunk=False).ratio()
+            token_ratio = SequenceMatcher(
+                None, left.split(), right.split(), autojunk=False
+            ).ratio()
+            pair_scores.append((char_ratio, token_ratio))
+    min_char = min(score[0] for score in pair_scores)
+    min_token = min(score[1] for score in pair_scores)
+    near_support = max(
+        sum(
+            SequenceMatcher(None, key, other, autojunk=False).ratio() >= 0.94
+            for other in keys
+        )
+        for key in keys
+    )
+    if near_support > len(keys) / 2 and near_support < len(keys):
+        return "medium", ["near_consensus_with_outlier"]
+    if single_artifact:
+        return "medium", ["isolated_suspicious_token", "lexical_difference"]
+    if min_char < 0.82 or min_token < 0.65:
+        return "high", ["substantial_lexical_difference_without_majority"]
+    if min_char >= 0.985 and min_token >= 0.90:
+        return "low", ["very_small_lexical_difference"]
+    return "medium", ["limited_lexical_difference"]
+
+
+def ordered_review_segments(segments: list[dict]) -> list[dict]:
+    return sorted(
+        segments,
+        key=lambda segment: (
+            PRIORITY_ORDER[segment["review_priority"]],
+            int(segment["id"][1:]),
+        ),
+    )
+
+
 def unaligned_blocks(lines: list[dict], indices: list[int], name: str) -> list[dict]:
     blocks = []
     for index in indices:
@@ -358,15 +464,19 @@ def build_packet(page: int, root: Path = ROOT) -> dict:
                     start, end, lines[name], matches_by_candidate[name]
                 )
         agreement, flags = segment_flags(readings)
+        priority, priority_reasons = review_priority(readings)
         segments.append({
             "id": f"S{number:03d}",
             "anchor_line_numbers": [line["number"] for line in anchor[start:end]],
             "agreement": agreement,
+            "review_priority": priority,
+            "priority_reasons": priority_reasons,
             "readings": readings,
             "flags": flags,
         })
 
     counts = Counter(segment["agreement"] for segment in segments)
+    priority_counts = Counter(segment["review_priority"] for segment in segments)
     return {
         "schema_version": 1,
         "pdf_page": page,
@@ -384,6 +494,9 @@ def build_packet(page: int, root: Path = ROOT) -> dict:
         "agreement_counts": {
             name: counts[name] for name in ("high", "low", "uncertain")
         },
+        "priority_counts": {
+            name: priority_counts[name] for name in PRIORITY_ORDER
+        },
         "segments": segments,
         "unaligned_candidate_lines": unaligned,
         "raw_candidates": raw_candidates,
@@ -395,61 +508,39 @@ def short(value: str, limit: int = 100) -> str:
     return value if len(value) <= limit else value[: limit - 1] + "…"
 
 
-def render_markdown(packet: dict) -> str:
-    lines = [
-        f"# OCR review packet — PDF page {packet['pdf_page']}",
-        "",
-        f"Printed page: {packet['printed_label'] or 'not recorded'}",
-        f"IA leaf: {packet['ia_leaf'] if packet['ia_leaf'] is not None else 'not recorded'}",
-        f"Review status: {packet['review_status']}",
-        f"Selected feature: {packet['selected_feature'] or 'not recorded'}",
-        "",
-        "**Comparison aid only.** OCR candidates are not verified transcription. "
-        "No candidate is designated correct; check the scan and control copy "
-        "before changing any gold-standard text.",
-        "",
-        f"Candidates available: {', '.join(packet['available_candidates'])}",
-        f"Candidates without this page: {', '.join(packet['unavailable_candidates']) or 'none'}",
-        f"Alignment anchor (not a quality ranking): {packet['alignment_anchor']}",
-        f"Comparison normalization: {packet['comparison_normalization']}",
-        "",
-        "## Summary",
-        "",
-        f"- High agreement: {packet['agreement_counts']['high']} segment(s)",
-        f"- Low agreement: {packet['agreement_counts']['low']} segment(s)",
-        f"- Uncertain agreement: {packet['agreement_counts']['uncertain']} segment(s)",
-        f"- Unaligned candidate blocks: {len(packet['unaligned_candidate_lines'])}",
-        "",
-        "## Review targets",
-        "",
-        "| Segment | Agreement | Flag categories | Examples |",
-        "|---|---|---|---|",
-    ]
-    priority = [
-        segment for segment in packet["segments"]
-        if segment["agreement"] != "high" or segment["flags"]
-    ]
-    for segment in priority:
+def append_review_table(lines: list[str], segments: list[dict]) -> None:
+    lines.extend([
+        "| Segment | Agreement | Priority reason | Flags | Examples |",
+        "|---|---|---|---|---|",
+    ])
+    for segment in segments:
+        reasons = ", ".join(
+            reason.replace("_", " ") for reason in segment["priority_reasons"]
+        )
         categories = ", ".join(flag["category"] for flag in segment["flags"]) or "none"
         examples = [
             example for flag in segment["flags"]
             for example in flag.get("examples", [])[:2]
         ]
         lines.append(
-            f"| {segment['id']} | {segment['agreement']} | "
-            f"{short(categories, 110)} | {short('; '.join(examples), 140)} |"
+            f"| {segment['id']} | {segment['agreement']} | {short(reasons, 90)} | "
+            f"{short(categories, 90)} | {short('; '.join(examples), 130)} |"
         )
-    if not priority:
-        lines.append("| — | — | No flagged segments | — |")
+    if not segments:
+        lines.append("| — | — | None | — | — |")
+    lines.append("")
 
-    lines.extend(["", "## Candidate readings for review targets", ""])
-    for segment in priority:
+
+def append_candidate_readings(lines: list[str], segments: list[dict]) -> None:
+    for segment in segments:
         numbers = ", ".join(str(number) for number in segment["anchor_line_numbers"])
         lines.extend([
             f"### {segment['id']} · anchor OCR line(s) {numbers}",
             "",
-            f"Agreement: {segment['agreement']}; flags: "
-            f"{', '.join(flag['category'] for flag in segment['flags']) or 'none'}",
+            f"Inspection priority: {segment['review_priority']}; "
+            f"agreement: {segment['agreement']}; "
+            f"reasons: {', '.join(segment['priority_reasons'])}; "
+            f"flags: {', '.join(flag['category'] for flag in segment['flags']) or 'none'}",
             "",
         ])
         for name, item in segment["readings"].items():
@@ -465,22 +556,71 @@ def render_markdown(packet: dict) -> str:
                 "",
             ])
 
+
+def render_markdown(packet: dict) -> str:
+    lines = [
+        f"# OCR review packet — PDF page {packet['pdf_page']}",
+        "",
+        f"Printed page: {packet['printed_label'] or 'not recorded'}",
+        f"IA leaf: {packet['ia_leaf'] if packet['ia_leaf'] is not None else 'not recorded'}",
+        f"Review status: {packet['review_status']}",
+        f"Selected feature: {packet['selected_feature'] or 'not recorded'}",
+        "",
+        "**Inspection queue only.** Priority is neither OCR correctness nor "
+        "transcription confidence. No candidate is designated correct; check "
+        "the scan and control copy before changing gold-standard text.",
+        "",
+        f"Candidates available: {', '.join(packet['available_candidates'])}",
+        f"Candidates without this page: {', '.join(packet['unavailable_candidates']) or 'none'}",
+        f"Alignment anchor (not a quality ranking): {packet['alignment_anchor']}",
+        f"Comparison normalization: {packet['comparison_normalization']}",
+        "",
+        "## Summary",
+        "",
+        f"- High-priority review targets: {packet['priority_counts']['high']}",
+        f"- Medium-priority targets: {packet['priority_counts']['medium']}",
+        f"- Low-priority targets: {packet['priority_counts']['low']}",
+        f"- Alignment-only / uncertain regions: {packet['priority_counts']['alignment_only']}",
+        "",
+        "Agreement is descriptive and separate from inspection priority:",
+        "",
+        f"- High agreement: {packet['agreement_counts']['high']} segment(s)",
+        f"- Low agreement: {packet['agreement_counts']['low']} segment(s)",
+        f"- Uncertain agreement: {packet['agreement_counts']['uncertain']} segment(s)",
+        f"- Unaligned candidate blocks: {len(packet['unaligned_candidate_lines'])}",
+        "",
+    ]
+    ordered = ordered_review_segments(packet["segments"])
+    queues = {
+        name: [segment for segment in ordered if segment["review_priority"] == name]
+        for name in PRIORITY_ORDER
+    }
+    lines.extend(["## High-priority review targets", ""])
+    append_review_table(lines, queues["high"])
+    lines.extend(["### High-priority candidate readings", ""])
+    append_candidate_readings(lines, queues["high"])
+
+    for name, heading in (
+        ("medium", "Medium-priority review targets"),
+        ("low", "Low-priority review targets"),
+        ("alignment_only", "Alignment-only / uncertain regions"),
+    ):
+        lines.extend([f"## {heading}", ""])
+        append_review_table(lines, queues[name])
+
     lines.extend([
-        "## Lower-priority aligned segments",
+        "## Other candidate readings",
         "",
-        "Full original OCR strings for every candidate are retained in the JSON packet.",
+        "Full original OCR and alignment data are also retained in the JSON packet.",
         "",
-        "| Segment | Anchor OCR line(s) | Anchor excerpt |",
-        "|---|---|---|",
+        "<details>",
+        "<summary>Show medium, low, and alignment-only candidate readings</summary>",
+        "",
     ])
-    for segment in packet["segments"]:
-        if segment in priority:
-            continue
-        anchor = segment["readings"][packet["alignment_anchor"]]
-        numbers = ", ".join(str(number) for number in segment["anchor_line_numbers"])
-        lines.append(f"| {segment['id']} | {numbers} | {short(anchor['text'], 120)} |")
-    if len(priority) == len(packet["segments"]):
-        lines.append("| — | — | None |")
+    append_candidate_readings(
+        lines, queues["medium"] + queues["low"] + queues["alignment_only"]
+    )
+    lines.extend(["</details>", ""])
 
     lines.extend(["", "## Unaligned candidate lines", ""])
     for block in packet["unaligned_candidate_lines"]:
@@ -532,8 +672,10 @@ def main() -> int:
     print(
         f"Wrote {base.with_suffix('.md')} and {base.with_suffix('.json')} "
         f"({len(packet['segments'])} segments, "
-        f"{packet['agreement_counts']['low']} low agreement, "
-        f"{packet['agreement_counts']['uncertain']} uncertain)."
+        f"{packet['priority_counts']['high']} high priority, "
+        f"{packet['priority_counts']['medium']} medium, "
+        f"{packet['priority_counts']['low']} low, "
+        f"{packet['priority_counts']['alignment_only']} alignment-only)."
     )
     return 0
 
