@@ -1,47 +1,47 @@
-# 《Paganini's Leben und Treiben》中文翻译项目
+[English](README.md) | [简体中文](README.zh-CN.md)
 
-本仓库用于制作 Julius Max Schottky 1830 年帕格尼尼传记的可核查中文译本。项目不把“识别文字—直接翻译”视为一个黑箱，而是保留扫描底本、逐页转录、规范化德文、中文翻译和注释之间的对应关系。
+# Schottky–Paganini 1830
 
-The project is a work in progress: a page-verifiable OCR, German transcription, and eventual Chinese translation of Schottky's 1830 Paganini biography.
+A page-verifiable OCR, German transcription, and eventual Chinese translation project for Julius Max Schottky's 1830 biography of Niccolò Paganini, *Paganini's Leben und Treiben als Künstler und als Mensch, mit unpartheiischer Berücksichtigung der Meinungen seiner Anhänger und Gegner*.
 
-原书使用 Fraktur（德语哥特体）排印，字形、连字和复杂版面让自动识别容易出错。项目以人工逐页校订建立金标准，并用独立馆藏扫描本交叉核对；[现有来源调查](docs/source-audit.md)尚未找到易于获取的完整中文电子译本，这不等于断言其他译本不存在。
+Much of the book is printed in Fraktur, with other type and languages appearing in places. Historical letterforms, ligatures, and varied page layouts make automated recognition unreliable without review. This project keeps the source page, page-level transcription, normalized German, Chinese translation, and notes linked so that a reader can check each interpretation against its source. Independent library scans are used as control copies where available. Our [current source audit](docs/source-audit.md) has not identified an easily accessible complete Chinese digital translation; it does not establish that no such translation exists.
 
-## 当前状态
+## Current status
 
-- 阶段 0：底本和网络版本核查已完成初版。详见 [`docs/source-audit.md`](docs/source-audit.md)。
-- 阶段 1：16 页 OCR 试验包的自动流程已经建立；15 页需要人工金标准，其中 PDF 第 21、60 页已复核，第 115 页仍在人工校对。详见 [`STATUS.md`](STATUS.md) 和 [`docs/manual-review-guide.md`](docs/manual-review-guide.md)。
-- OCR 默认模型尚未确定；全书批量 OCR、全书校勘、中文翻译、线上阅读器与排版出版均未完成。
+- A 16-page OCR pilot and candidate outputs are available. Fifteen pages are intended for textual gold-standard evaluation; the remaining manuscript/facsimile page requires a different review path.
+- PDF pages 21 and 60 are verified against the scans (`2/15`). PDF page 115 is still in human review. A non-empty draft is not a verified gold-standard page. The [review log](pilot/ground_truth/review-log.csv) controls scoring status.
+- The default OCR model has not been selected. Full-book transcription and Chinese translation are not complete; the online reader has not been built.
 
-## 数据层
+See [project status](STATUS.md) and the [manual review guide](docs/manual-review-guide.md) for the current workflow. The source and online-version survey is documented in the [source audit](docs/source-audit.md).
+
+## Text and evidence layers
 
 ```text
-扫描底本 → 外交式转录 → 规范化德文 → 中文翻译 → 注释
-   │            │              │            │
-   └────────────稳定页码／区域标识────────────┘
+Facsimile → diplomatic German transcription → normalized German
+                                             → Chinese translation → notes
+                 stable page and region identifiers connect the layers
 ```
 
-其中“外交式转录”保留原书拼写、标点、段落和诗歌结构；“规范化德文”只处理换行断词、字形变体等机器处理问题；中文译文不覆盖原文。
+The diplomatic transcription retains historical spelling, punctuation, printed lines, and significant layout. Normalization handles typographic variants and ordinary line-break hyphenation for search; it does not silently modernize the wording. Translations and notes remain separate from the German source text. The planned reader will show the facsimile, transcription, and translation together with their provenance. Its proposed English/Simplified Chinese interface is described in the [reader architecture](docs/reader-architecture.md); no reader is implemented yet.
 
-计划中的阅读器会让读者并排查看原页、德文转录和中文译文，并追溯每段文字的来源。当前仓库还没有阅读器。
+## Repository layout
 
-## 仓库结构
+- `data/`: source records and the PDF-to-printed-page map.
+- `docs/`: source research, editorial rules, manual review instructions, and reader design.
+- `pilot/ocr/`: candidate OCR output for representative pages, not corrected text.
+- `pilot/ground_truth/`: verified transcriptions and work-in-progress drafts; `review-log.csv` records their status.
+- `scripts/` and `reports/`: processing scripts and reproducible pilot results.
 
-- `data/`：来源与页码映射。
-- `docs/`：底本调查、编辑规则和人工校对指南。
-- `pilot/ocr/`：代表页的候选 OCR 文本；不是校订本。
-- `pilot/ground_truth/`：金标准文件与未完成的校对稿；复核状态以 `review-log.csv` 为准。
-- `scripts/`、`reports/`：可复现的处理脚本和阶段性结果。
+## Reproduce the pilot
 
-## 本地复现阶段 0/1
-
-现有的候选 OCR 和评分报告已随仓库提供。运行下列命令可重新计算评分和检查项目；只有 `review-log.csv` 中标为 `verified` 的页会参与评分：
+The repository includes candidate OCR text and the current scoring inputs. With Python 3.10+ available, these commands recalculate scores and check project structure. Only pages marked `verified` in `pilot/ground_truth/review-log.csv` are scored:
 
 ```powershell
 python scripts/score_ocr.py
 python scripts/validate_project.py
 ```
 
-如需从扫描件重新生成完整试验包，先自行取得原书扫描 PDF，以 `1830年版朱利叶斯版传记.pdf` 放在仓库根目录。PDF 被 Git 忽略；还需按 [`docs/pilot-plan.md`](docs/pilot-plan.md) 准备 Tesseract 模型和其他依赖，再运行：
+A fresh clone will lack the deliberately excluded page images, so the validator may report them as a warning. To regenerate the image-based pilot, obtain the source scan independently, place it at the repository root as `1830年版朱利叶斯版传记.pdf`, and prepare Poppler, Tesseract 5.x, its `tessdata_best` models, and the source OCR input as described in the [pilot plan](docs/pilot-plan.md). Then run:
 
 ```powershell
 python scripts/audit_pdf.py
@@ -51,14 +51,10 @@ python scripts/extract_ia_ocr.py
 python scripts/run_tesseract.py
 ```
 
-`run_tesseract.py` 会自动寻找 PATH 或 `C:\Program Files\Tesseract-OCR\tesseract.exe`，并使用本地 `tools/tessdata_best` 中的模型。依赖和下载说明见 [`docs/pilot-plan.md`](docs/pilot-plan.md)。
+`run_tesseract.py` looks for Tesseract on `PATH` or at the standard Windows installation path, and for the selected models under the local `tools/tessdata_best/` directory. The required versions and model names are in the [pilot plan](docs/pilot-plan.md).
 
-## GitHub 发布原则
+## Sources, rights, and contributions
 
-首个公开里程碑只包含代码、书目清单、流程文档、人工转录和之后的原创译文。原始 PDF、试验页图片、下载缓存和 OCR 引擎均已排除在 Git 之外；第三方数字化图像是否可以再分发，要分别遵守来源网站的权利声明。
+Original PDFs, page images, downloaded caches, and OCR model files are excluded from Git. Redistribution of third-party scans depends on each source's terms; the repository publishes source metadata and links rather than whole-page images. Project code, human transcription, and future translation have not yet been assigned an open licence. See [rights and publication notes](RIGHTS.md) and the [publication plan](docs/github-publishing.md).
 
-项目的文本与代码许可证尚未由项目所有者选定，当前不要把仓库内容视为已授予再许可。详见 [`RIGHTS.md`](RIGHTS.md)。
-
-后续里程碑和公开内容边界见 [`docs/github-publishing.md`](docs/github-publishing.md)。
-
-发现转录错误、难辨字形或来源异文，可先阅读 [`CONTRIBUTING.md`](CONTRIBUTING.md)。
+For transcription corrections, Fraktur questions, source variants, translation suggestions, OCR tooling, or reader ideas, see [contribution guidance](CONTRIBUTING.md). The detailed status, contribution, rights, and most research documents are currently in Chinese; English versions of those documents can be added separately.
