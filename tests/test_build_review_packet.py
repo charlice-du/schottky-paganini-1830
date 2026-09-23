@@ -1,24 +1,74 @@
 """Focused tests for conservative OCR comparison (no scan or gold text needed)."""
 
+import tempfile
 import unittest
+from pathlib import Path
 
 from scripts.build_review_packet import (
     align_lines,
     alignment_key,
+    build_packet,
     comparison_text,
     numbered_lines,
     ordered_review_segments,
     review_priority,
     segment_flags,
+    similarity,
 )
 
 
 class ReviewPacketTests(unittest.TestCase):
+    @staticmethod
+    def fixture_root(folder: str, candidates: dict[str, str | None]) -> Path:
+        root = Path(folder)
+        for relative, contents in {
+            "data/page-map.csv": "pdf_page,ia_leaf,printed_label\n115,115,95\n",
+            "pilot/selection.csv": "pdf_page,feature\n115,ordinary text\n",
+            "pilot/ground_truth/review-log.csv": "pdf_page,status\n115,in_review\n",
+        }.items():
+            path = root / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(contents, encoding="utf-8")
+        for name, contents in candidates.items():
+            directory = root / "pilot" / "ocr" / name
+            directory.mkdir(parents=True, exist_ok=True)
+            if contents is not None:
+                (directory / "page-115.txt").write_text(contents, encoding="utf-8")
+        return root
+
     def test_comparison_normalization_keeps_original_ocr_untouched(self):
         original = "Die ſchöne ﬂöte  \n"
         self.assertEqual(comparison_text(original), "die schöne flöte")
         self.assertEqual(original, "Die ſchöne ﬂöte  \n")
         self.assertEqual(alignment_key("unwürd:gen"), "unwürdgen")
+
+    def test_standalone_punctuation_does_not_change_alignment_key(self):
+        punctuated = "foo . . . . . bar"
+        self.assertEqual(alignment_key(punctuated), alignment_key("foo bar"))
+        self.assertEqual(similarity(punctuated, "foo bar"), 1.0)
+
+    def test_empty_candidate_is_excluded_from_anchor_selection(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = self.fixture_root(folder, {
+                "aaa-empty": " \n\t",
+                "zzz-valid": "Die Musik erklingt heute\n",
+                "missing": None,
+            })
+            packet = build_packet(115, root)
+        self.assertEqual(packet["alignment_anchor"], "zzz-valid")
+        self.assertEqual(packet["available_candidates"], ["zzz-valid"])
+        self.assertEqual(packet["empty_candidates"], ["aaa-empty"])
+        self.assertEqual(packet["unavailable_candidates"], ["missing"])
+        self.assertEqual(len(packet["segments"]), 1)
+
+    def test_all_empty_candidates_fail_clearly(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = self.fixture_root(folder, {
+                "blank": "",
+                "punctuation-only": " . . . \n",
+            })
+            with self.assertRaisesRegex(ValueError, "No usable OCR candidates for PDF page 115"):
+                build_packet(115, root)
 
     def test_insertion_does_not_shift_following_matches(self):
         anchor = numbered_lines("Erste Zeile des Absatzes\nZweite Zeile des Absatzes\n")

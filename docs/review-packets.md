@@ -8,7 +8,7 @@ Run from the repository root with Python 3.10+:
 python scripts/build_review_packet.py 115
 ```
 
-This writes `reports/review/page-115.md` (human-readable) and `reports/review/page-115.json` (machine-readable). Use `--output-dir tmp/review-test` to keep test runs out of the tracked reports. The command needs only the checked-in `pilot/ocr/` texts, `data/page-map.csv`, `pilot/selection.csv`, and `pilot/ground_truth/review-log.csv`. It does **not** need the source PDF, page PNGs, Tesseract, or IA cache files. Candidate directories are discovered automatically; a directory lacking the requested page is reported as unavailable.
+This writes `reports/review/page-115.md` (human-readable) and `reports/review/page-115.json` (machine-readable). Use `--output-dir tmp/review-test` to keep test runs out of the tracked reports. The command needs only the checked-in `pilot/ocr/` texts, `data/page-map.csv`, `pilot/selection.csv`, and `pilot/ground_truth/review-log.csv`. It does **not** need the source PDF, page PNGs, Tesseract, or IA cache files. Candidate directories are discovered automatically. A directory lacking the requested page is reported as unavailable; an existing page file with no alphanumeric OCR text is reported separately as empty/unusable and excluded from alignment. If no usable candidate remains, the command fails clearly.
 
 The JSON uses `schema_version: 1` and includes page metadata, review status, candidate names, an alignment anchor, agreement counts, an independent `review_priority` and its reasons, aligned segments, unaligned candidate lines, and `raw_candidates` containing the complete original OCR strings. The Markdown opens with high-priority targets and their readings, followed by medium, low, and alignment-only queues; lower-priority full readings are collapsible. Both outputs are deterministic for unchanged inputs and contain no scan image.
 
@@ -16,7 +16,7 @@ The JSON uses `schema_version: 1` and includes page metadata, review status, can
 
 The packet shows both match similarity and anchor-line coverage. A fragment may match strongly while covering only part of a grouped anchor segment; such a correspondence remains uncertain.
 
-For **comparison only**, the script applies Unicode NFC, expands long `ſ` and a few ligatures, lowercases, and collapses whitespace. It ignores punctuation when computing alignment similarity, but retains original punctuation and line breaks in the readings and flags. No source or gold-standard file is normalized or rewritten.
+For **comparison only**, the script applies Unicode NFC, expands long `ſ` and a few ligatures, lowercases, and collapses whitespace. It ignores punctuation when computing alignment similarity, including standalone punctuation-only tokens, but retains original punctuation and line breaks in the readings and flags. No source or gold-standard file is normalized or rewritten.
 
 The alignment anchor is the available candidate with the highest average full-page token similarity to the others. This is only a coordinate choice, **not** a quality ranking. Each other candidate is aligned monotonically with dynamic programming: one or two nonblank OCR lines may match one or two anchor OCR lines. Matches below 0.68 similarity are rejected; matches from 0.68 to below 0.82 are marked `uncertain`. Skipped candidate lines are shown separately as `unaligned`. The script never assumes that the same line number in two OCR outputs is the same printed line.
 

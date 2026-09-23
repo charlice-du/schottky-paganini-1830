@@ -15,29 +15,29 @@
   "unavailable_candidates": [
     "tesseract-latin-psm3"
   ],
+  "empty_candidates": [],
   "comparison_normalization": "Unicode NFC; long s and selected ligatures expanded; lowercase; whitespace collapsed. Punctuation is ignored only for alignment.",
   "agreement_counts": {
     "high": 0,
     "low": 33,
-    "uncertain": 2
+    "uncertain": 3
   },
   "priority_counts": {
     "high": 8,
     "medium": 22,
-    "low": 0,
+    "low": 1,
     "alignment_only": 5
   },
   "segments": [
     {
       "id": "S001",
       "anchor_line_numbers": [
-        1,
-        3
+        1
       ],
       "agreement": "low",
-      "review_priority": "alignment_only",
+      "review_priority": "low",
       "priority_reasons": [
-        "text_stable_but_alignment_incomplete"
+        "formatting_only_or_identical"
       ],
       "readings": {
         "internet_archive": {
@@ -45,36 +45,33 @@
             1
           ],
           "text": "95",
-          "alignment": "uncertain",
+          "alignment": "aligned",
           "similarity": 1.0,
-          "anchor_coverage": 0.5
+          "anchor_coverage": 1.0
         },
         "tesseract-deu-latf-psm3": {
           "line_numbers": [
-            1,
-            3
+            1
           ],
-          "text": "95\nnicht minder zu meinen perſönlichen Freunden gehört, wie Pagani-",
+          "text": "95",
           "alignment": "anchor",
           "similarity": 1.0,
           "anchor_coverage": 1.0
         },
         "tesseract-deu-latf-psm6": {
           "line_numbers": [
-            1,
-            2
+            1
           ],
-          "text": "|                                 95\nnicht minder zu meinen perſönlichen Freunden gehört, wie Pagani-",
+          "text": "|                                 95",
           "alignment": "aligned",
-          "similarity": 0.992,
+          "similarity": 1.0,
           "anchor_coverage": 1.0
         },
         "tesseract-fraktur-psm3": {
           "line_numbers": [
-            1,
-            3
+            1
           ],
-          "text": "95\nnicht minder zu meinen perſönlichen Freunden gehört, wie Pagani-",
+          "text": "95",
           "alignment": "aligned",
           "similarity": 1.0,
           "anchor_coverage": 1.0
@@ -84,9 +81,14 @@
         {
           "category": "candidate_disagreement",
           "examples": [
+            "internet_archive: ∅ / tesseract-deu-latf-psm6: |",
             "tesseract-deu-latf-psm3: ∅ / tesseract-deu-latf-psm6: |",
             "tesseract-deu-latf-psm6: | / tesseract-fraktur-psm3: ∅"
           ]
+        },
+        {
+          "category": "punctuation_disagreement",
+          "examples": []
         },
         {
           "category": "possible_ocr_artifact",
@@ -94,15 +96,64 @@
           "examples": [
             "tesseract-deu-latf-psm6: |"
           ]
-        },
-        {
-          "category": "uncertain_alignment",
-          "examples": []
         }
       ]
     },
     {
       "id": "S002",
+      "anchor_line_numbers": [
+        3
+      ],
+      "agreement": "uncertain",
+      "review_priority": "alignment_only",
+      "priority_reasons": [
+        "text_stable_but_alignment_incomplete"
+      ],
+      "readings": {
+        "internet_archive": {
+          "line_numbers": [],
+          "text": "",
+          "alignment": "unaligned",
+          "similarity": 0.0,
+          "anchor_coverage": 0.0
+        },
+        "tesseract-deu-latf-psm3": {
+          "line_numbers": [
+            3
+          ],
+          "text": "nicht minder zu meinen perſönlichen Freunden gehört, wie Pagani-",
+          "alignment": "anchor",
+          "similarity": 1.0,
+          "anchor_coverage": 1.0
+        },
+        "tesseract-deu-latf-psm6": {
+          "line_numbers": [
+            2
+          ],
+          "text": "nicht minder zu meinen perſönlichen Freunden gehört, wie Pagani-",
+          "alignment": "aligned",
+          "similarity": 1.0,
+          "anchor_coverage": 1.0
+        },
+        "tesseract-fraktur-psm3": {
+          "line_numbers": [
+            3
+          ],
+          "text": "nicht minder zu meinen perſönlichen Freunden gehört, wie Pagani-",
+          "alignment": "aligned",
+          "similarity": 1.0,
+          "anchor_coverage": 1.0
+        }
+      },
+      "flags": [
+        {
+          "category": "unaligned",
+          "examples": []
+        }
+      ]
+    },
+    {
+      "id": "S003",
       "anchor_line_numbers": [
         4
       ],
@@ -172,7 +223,7 @@
       ]
     },
     {
-      "id": "S003",
+      "id": "S004",
       "anchor_line_numbers": [
         5,
         6
@@ -269,7 +320,7 @@
       ]
     },
     {
-      "id": "S004",
+      "id": "S005",
       "anchor_line_numbers": [
         7,
         8
@@ -351,7 +402,7 @@
       ]
     },
     {
-      "id": "S005",
+      "id": "S006",
       "anchor_line_numbers": [
         9
       ],
@@ -367,7 +418,7 @@
           ],
           "text": "räte Spiel u. f. w. *) — iBocb, um npd} eine grage 511 tfmn! fagen",
           "alignment": "uncertain",
-          "similarity": 0.743,
+          "similarity": 0.734,
           "anchor_coverage": 1.0
         },
         "tesseract-deu-latf-psm3": {
@@ -394,7 +445,7 @@
           ],
           "text": "kate Spiel u. ſw. *)— Doch, um noch eine Frage zu thun! ſagen",
           "alignment": "aligned",
-          "similarity": 0.982,
+          "similarity": 0.991,
           "anchor_coverage": 1.0
         }
       },
@@ -420,7 +471,7 @@
       ]
     },
     {
-      "id": "S006",
+      "id": "S007",
       "anchor_line_numbers": [
         11
       ],
@@ -436,7 +487,7 @@
           ],
           "text": "*) STer Berfaffer beS ttorli'genben SBerfeö maefte aueb furje biograpbifdje",
           "alignment": "uncertain",
-          "similarity": 0.69,
+          "similarity": 0.681,
           "anchor_coverage": 1.0
         },
         "tesseract-deu-latf-psm3": {
@@ -463,7 +514,7 @@
           ],
           "text": "=) Der Verfaſſer des vorliegenden Werkes madte auh kurze biographiſche",
           "alignment": "aligned",
-          "similarity": 0.971,
+          "similarity": 0.964,
           "anchor_coverage": 1.0
         }
       },
@@ -492,7 +543,7 @@
       ]
     },
     {
-      "id": "S007",
+      "id": "S008",
       "anchor_line_numbers": [
         12
       ],
@@ -585,7 +636,7 @@
       ]
     },
     {
-      "id": "S008",
+      "id": "S009",
       "anchor_line_numbers": [
         13
       ],
@@ -601,7 +652,7 @@
           ],
           "text": "ner -ieitfdirift1' berannt, »teil er bimaU ©elegenbeit fjatt* » btefen",
           "alignment": "uncertain",
-          "similarity": 0.714,
+          "similarity": 0.72,
           "anchor_coverage": 1.0
         },
         "tesseract-deu-latf-psm3": {
@@ -658,7 +709,7 @@
       ]
     },
     {
-      "id": "S009",
+      "id": "S010",
       "anchor_line_numbers": [
         14
       ],
@@ -734,7 +785,7 @@
       ]
     },
     {
-      "id": "S010",
+      "id": "S011",
       "anchor_line_numbers": [
         15
       ],
@@ -812,7 +863,7 @@
       ]
     },
     {
-      "id": "S011",
+      "id": "S012",
       "anchor_line_numbers": [
         17
       ],
@@ -846,7 +897,7 @@
           ],
           "text": "12.) : „Von fremden Tonkünſtlern hörten wir im Laufe des Winters",
           "alignment": "aligned",
-          "similarity": 0.983,
+          "similarity": 0.991,
           "anchor_coverage": 1.0
         },
         "tesseract-fraktur-psm3": {
@@ -881,7 +932,7 @@
       ]
     },
     {
-      "id": "S012",
+      "id": "S013",
       "anchor_line_numbers": [
         18,
         20
@@ -899,7 +950,7 @@
           ],
           "text": "mand)cn rorjibli ren unb bereit» aditbar befannten OTeifter. £erc\nSKajaS, einer her auögrjrt iinetcftm franjöfit'djen ®eigenfpie(er , er*",
           "alignment": "uncertain",
-          "similarity": 0.71,
+          "similarity": 0.708,
           "anchor_coverage": 1.0
         },
         "tesseract-deu-latf-psm3": {
@@ -929,7 +980,7 @@
           ],
           "text": "manchen vorzüali-hen und bereits ahtbar bekannten Meiſter, Herr\nMazas, einer der ausgezcichneteſten franzöſiſchen Geigenſpieler , ers",
           "alignment": "aligned",
-          "similarity": 0.949,
+          "similarity": 0.948,
           "anchor_coverage": 1.0
         }
       },
@@ -952,7 +1003,7 @@
       ]
     },
     {
-      "id": "S013",
+      "id": "S014",
       "anchor_line_numbers": [
         22
       ],
@@ -1014,7 +1065,7 @@
       ]
     },
     {
-      "id": "S014",
+      "id": "S015",
       "anchor_line_numbers": [
         24
       ],
@@ -1030,7 +1081,7 @@
           ],
           "text": "fen JBrife ; feine ftertigfett ift grofi bie Sntonation obne Säbel, t)öcf)fi",
           "alignment": "uncertain",
-          "similarity": 0.7,
+          "similarity": 0.691,
           "anchor_coverage": 1.0
         },
         "tesseract-deu-latf-psm3": {
@@ -1057,7 +1108,7 @@
           ],
           "text": "ſen Weiſe ; ſeine Fertigkeit iſt groß. die Intonation ohne Tadel, höht",
           "alignment": "aligned",
-          "similarity": 0.978,
+          "similarity": 0.97,
           "anchor_coverage": 1.0
         }
       },
@@ -1094,7 +1145,7 @@
       ]
     },
     {
-      "id": "S015",
+      "id": "S016",
       "anchor_line_numbers": [
         25
       ],
@@ -1110,7 +1161,7 @@
           ],
           "text": "bemerfenStrertb aber bie berrliaV gübtung be$ BogenS. — 2Me et*",
           "alignment": "uncertain",
-          "similarity": 0.723,
+          "similarity": 0.718,
           "anchor_coverage": 1.0
         },
         "tesseract-deu-latf-psm3": {
@@ -1137,7 +1188,7 @@
           ],
           "text": "bemerkenêwerth aber dir herrlihe Führung des Bogens, — Die ei-",
           "alignment": "aligned",
-          "similarity": 0.958,
+          "similarity": 0.957,
           "anchor_coverage": 1.0
         }
       },
@@ -1174,7 +1225,7 @@
       ]
     },
     {
-      "id": "S016",
+      "id": "S017",
       "anchor_line_numbers": [
         26
       ],
@@ -1190,7 +1241,7 @@
           ],
           "text": "genen Gompofitienen beö £rn. 9?J a g a 6 , rceld)c er tbeilß fetbft »or;",
           "alignment": "uncertain",
-          "similarity": 0.688,
+          "similarity": 0.694,
           "anchor_coverage": 1.0
         },
         "tesseract-deu-latf-psm3": {
@@ -1254,7 +1305,7 @@
       ]
     },
     {
-      "id": "S017",
+      "id": "S018",
       "anchor_line_numbers": [
         27
       ],
@@ -1322,7 +1373,7 @@
       ]
     },
     {
-      "id": "S018",
+      "id": "S019",
       "anchor_line_numbers": [
         28,
         30
@@ -1340,7 +1391,7 @@
           ],
           "text": "be, nod) einem befonbern Säbel Mofi.\" 5Rübmli<+er lautet eS au«\nS erlin (a. a. £>.) : ,,£er gereolÜJcaja«, «Diitgticb beö Gion»",
           "alignment": "uncertain",
-          "similarity": 0.714,
+          "similarity": 0.712,
           "anchor_coverage": 1.0
         },
         "tesseract-deu-latf-psm3": {
@@ -1413,7 +1464,7 @@
       ]
     },
     {
-      "id": "S019",
+      "id": "S020",
       "anchor_line_numbers": [
         32
       ],
@@ -1429,7 +1480,7 @@
           ],
           "text": "feroatoriumS in yavii , fyoX am 4. unb 17. Februar 1823 b»'r",
           "alignment": "uncertain",
-          "similarity": 0.771,
+          "similarity": 0.778,
           "anchor_coverage": 1.0
         },
         "tesseract-deu-latf-psm3": {
@@ -1477,7 +1528,7 @@
       ]
     },
     {
-      "id": "S020",
+      "id": "S021",
       "anchor_line_numbers": [
         34
       ],
@@ -1493,7 +1544,7 @@
           ],
           "text": "(Soncert gegeben t unb ftd) barin als einen ber mürbigften ©cfyüler",
           "alignment": "uncertain",
-          "similarity": 0.797,
+          "similarity": 0.787,
           "anchor_coverage": 1.0
         },
         "tesseract-deu-latf-psm3": {
@@ -1546,7 +1597,7 @@
       ]
     },
     {
-      "id": "S021",
+      "id": "S022",
       "anchor_line_numbers": [
         36
       ],
@@ -1562,7 +1613,7 @@
           ],
           "text": "58 at Hot1 i beträfet. 2tm erften fpielte er ein Biolin s Cioncert E",
           "alignment": "uncertain",
-          "similarity": 0.746,
+          "similarity": 0.736,
           "anchor_coverage": 1.0
         },
         "tesseract-deu-latf-psm3": {
@@ -1620,7 +1671,7 @@
       ]
     },
     {
-      "id": "S022",
+      "id": "S023",
       "anchor_line_numbers": [
         38
       ],
@@ -1701,7 +1752,7 @@
       ]
     },
     {
-      "id": "S023",
+      "id": "S024",
       "anchor_line_numbers": [
         40
       ],
@@ -1735,7 +1786,7 @@
           ],
           "text": "|      taſie über die Cavatine aus Tanerod yz auf der (7 Saite von ihm",
           "alignment": "aligned",
-          "similarity": 0.992,
+          "similarity": 1.0,
           "anchor_coverage": 1.0
         },
         "tesseract-fraktur-psm3": {
@@ -1782,7 +1833,7 @@
       ]
     },
     {
-      "id": "S024",
+      "id": "S025",
       "anchor_line_numbers": [
         41
       ],
@@ -1816,7 +1867,7 @@
           ],
           "text": "|      vorgetragen; auch mit Orcheſter-Begleitung, und im zweiten ein Vio-",
           "alignment": "aligned",
-          "similarity": 0.992,
+          "similarity": 1.0,
           "anchor_coverage": 1.0
         },
         "tesseract-fraktur-psm3": {
@@ -1855,7 +1906,7 @@
       ]
     },
     {
-      "id": "S025",
+      "id": "S026",
       "anchor_line_numbers": [
         42
       ],
@@ -1917,7 +1968,7 @@
       ]
     },
     {
-      "id": "S026",
+      "id": "S027",
       "anchor_line_numbers": [
         43,
         45
@@ -1935,7 +1986,7 @@
           ],
           "text": "bie Sonfunft , mit (Stjbren unb Begleitung beö Crdjefterö\", in bem\nSOcab. ©djutj bie ©oloftimme , £err ?JJc a j a S bie obligate Biotine",
           "alignment": "uncertain",
-          "similarity": 0.691,
+          "similarity": 0.686,
           "anchor_coverage": 1.0
         },
         "tesseract-deu-latf-psm3": {
@@ -1965,7 +2016,7 @@
           ],
           "text": "die Tonkunſt, mit Chören und Begleitung des Orcheſters), in dem\nMad, Schulz die Soloſtimme , Herr Mazas die obligate Violine",
           "alignment": "aligned",
-          "similarity": 0.992,
+          "similarity": 1.0,
           "anchor_coverage": 1.0
         }
       },
@@ -1978,13 +2029,17 @@
           ]
         },
         {
+          "category": "punctuation_disagreement",
+          "examples": []
+        },
+        {
           "category": "uncertain_alignment",
           "examples": []
         }
       ]
     },
     {
-      "id": "S027",
+      "id": "S028",
       "anchor_line_numbers": [
         47
       ],
@@ -2000,7 +2055,7 @@
           ],
           "text": "unb £err 25efcrgu6 iit obligate £arfe oortrugen , enblid) auf Be*",
           "alignment": "uncertain",
-          "similarity": 0.797,
+          "similarity": 0.793,
           "anchor_coverage": 1.0
         },
         "tesseract-deu-latf-psm3": {
@@ -2027,7 +2082,7 @@
           ],
           "text": "und Herr Deſcrgus die obligate Harfe vortruzen, endlih auf Be-",
           "alignment": "aligned",
-          "similarity": 0.959,
+          "similarity": 0.967,
           "anchor_coverage": 1.0
         }
       },
@@ -2055,7 +2110,7 @@
       ]
     },
     {
-      "id": "S028",
+      "id": "S029",
       "anchor_line_numbers": [
         49
       ],
@@ -2142,7 +2197,7 @@
       ]
     },
     {
-      "id": "S029",
+      "id": "S030",
       "anchor_line_numbers": [
         50
       ],
@@ -2204,7 +2259,7 @@
       ]
     },
     {
-      "id": "S030",
+      "id": "S031",
       "anchor_line_numbers": [
         51
       ],
@@ -2238,7 +2293,7 @@
           ],
           "text": "|      tenen Fertigkeit z auch) zeigte er in der nationalen Barcarole ſchönes",
           "alignment": "aligned",
-          "similarity": 0.993,
+          "similarity": 1.0,
           "anchor_coverage": 1.0
         },
         "tesseract-fraktur-psm3": {
@@ -2282,7 +2337,7 @@
       ]
     },
     {
-      "id": "S031",
+      "id": "S032",
       "anchor_line_numbers": [
         53
       ],
@@ -2298,7 +2353,7 @@
           ],
           "text": "5)ortamento unb gebiegeneö ßegato- ©eine ßompofition bat °ie^ ^^:",
           "alignment": "uncertain",
-          "similarity": 0.817,
+          "similarity": 0.807,
           "anchor_coverage": 1.0
         },
         "tesseract-deu-latf-psm3": {
@@ -2358,7 +2413,7 @@
       ]
     },
     {
-      "id": "S032",
+      "id": "S033",
       "anchor_line_numbers": [
         55
       ],
@@ -2374,7 +2429,7 @@
           ],
           "text": "ginalität/ unb ntd)t blofi bie bemcr!ten dompojitionen , fenbern audj",
           "alignment": "uncertain",
-          "similarity": 0.773,
+          "similarity": 0.775,
           "anchor_coverage": 1.0
         },
         "tesseract-deu-latf-psm3": {
@@ -2392,7 +2447,7 @@
           ],
           "text": "|      ginalität , und nicht bloß die bemerkten Compoſitionen , ſondern auch",
           "alignment": "aligned",
-          "similarity": 0.993,
+          "similarity": 1.0,
           "anchor_coverage": 1.0
         },
         "tesseract-fraktur-psm3": {
@@ -2429,7 +2484,7 @@
       ]
     },
     {
-      "id": "S033",
+      "id": "S034",
       "anchor_line_numbers": [
         57
       ],
@@ -2502,7 +2557,7 @@
       ]
     },
     {
-      "id": "S034",
+      "id": "S035",
       "anchor_line_numbers": [
         58
       ],
@@ -2518,7 +2573,7 @@
           ],
           "text": "fdjenben Beifall. — Unb t>on SOt ü neben au5 beriitete man",
           "alignment": "uncertain",
-          "similarity": 0.748,
+          "similarity": 0.743,
           "anchor_coverage": 1.0
         },
         "tesseract-deu-latf-psm3": {
@@ -2545,7 +2600,7 @@
           ],
           "text": "\\henden Beifall, — Und von München aus berictcete man",
           "alignment": "aligned",
-          "similarity": 0.961,
+          "similarity": 0.96,
           "anchor_coverage": 1.0
         }
       },
@@ -2587,7 +2642,7 @@
       ]
     },
     {
-      "id": "S035",
+      "id": "S036",
       "anchor_line_numbers": [
         60,
         62
@@ -2605,7 +2660,7 @@
           ],
           "text": "a.a.O. (1826, Sero. 51.) : ,,^t. gcreol «Dlaja«, ber fcocfcbf«\ntiiljmte ©oitenf ünftler , ein ^)ero« auf feinem 3nftrumente, trablte fid)",
           "alignment": "uncertain",
-          "similarity": 0.714,
+          "similarity": 0.715,
           "anchor_coverage": 1.0
         },
         "tesseract-deu-latf-psm3": {
@@ -2625,7 +2680,7 @@
           ],
           "text": "       a. a. O. (1826, Nro. 51.) : „Hr. Fereol Mazas, der hochbe-\nrühmte Saitenkünftler , ein Heros auf ſeinem Inſtrumente, wählte ſich",
           "alignment": "aligned",
-          "similarity": 0.977,
+          "similarity": 0.989,
           "anchor_coverage": 1.0
         },
         "tesseract-fraktur-psm3": {

@@ -45,7 +45,8 @@ def comparison_text(value: str) -> str:
 def alignment_key(value: str) -> str:
     """Ignore punctuation for alignment, but retain it in the OCR and flags."""
     normalized = comparison_text(value)
-    return " ".join("".join(ch for ch in word if ch.isalnum()) for word in normalized.split())
+    cleaned = ("".join(ch for ch in word if ch.isalnum()) for word in normalized.split())
+    return " ".join(word for word in cleaned if word)
 
 
 def similarity(left: str, right: str) -> float:
@@ -420,17 +421,21 @@ def build_packet(page: int, root: Path = ROOT) -> dict:
     review = metadata_row(root / "pilot" / "ground_truth" / "review-log.csv", page)
     selection = metadata_row(root / "pilot" / "selection.csv", page)
 
-    raw_candidates, unavailable = {}, []
+    raw_candidates, unavailable, empty = {}, [], []
     for directory in sorted((root / "pilot" / "ocr").iterdir()):
         if not directory.is_dir():
             continue
         path = directory / f"page-{page:03d}.txt"
         if path.is_file():
-            raw_candidates[directory.name] = path.read_text(encoding="utf-8-sig")
+            raw = path.read_text(encoding="utf-8-sig")
+            if alignment_key(raw):
+                raw_candidates[directory.name] = raw
+            else:
+                empty.append(directory.name)
         else:
             unavailable.append(directory.name)
     if not raw_candidates:
-        raise ValueError(f"No OCR candidates available for PDF page {page}")
+        raise ValueError(f"No usable OCR candidates for PDF page {page}")
 
     anchor_name = choose_anchor(raw_candidates)
     lines = {name: numbered_lines(raw) for name, raw in raw_candidates.items()}
@@ -487,6 +492,7 @@ def build_packet(page: int, root: Path = ROOT) -> dict:
         "alignment_anchor": anchor_name,
         "available_candidates": sorted(raw_candidates),
         "unavailable_candidates": unavailable,
+        "empty_candidates": empty,
         "comparison_normalization": (
             "Unicode NFC; long s and selected ligatures expanded; lowercase; "
             "whitespace collapsed. Punctuation is ignored only for alignment."
@@ -572,6 +578,7 @@ def render_markdown(packet: dict) -> str:
         "",
         f"Candidates available: {', '.join(packet['available_candidates'])}",
         f"Candidates without this page: {', '.join(packet['unavailable_candidates']) or 'none'}",
+        f"Candidates with empty/unusable OCR: {', '.join(packet['empty_candidates']) or 'none'}",
         f"Alignment anchor (not a quality ranking): {packet['alignment_anchor']}",
         f"Comparison normalization: {packet['comparison_normalization']}",
         "",

@@ -9,6 +9,7 @@ Selected feature: 普通正文
 
 Candidates available: internet_archive, tesseract-deu-latf-psm3, tesseract-deu-latf-psm6, tesseract-fraktur-psm3
 Candidates without this page: tesseract-latin-psm3
+Candidates with empty/unusable OCR: none
 Alignment anchor (not a quality ranking): tesseract-deu-latf-psm3
 Comparison normalization: Unicode NFC; long s and selected ligatures expanded; lowercase; whitespace collapsed. Punctuation is ignored only for alignment.
 
@@ -16,32 +17,32 @@ Comparison normalization: Unicode NFC; long s and selected ligatures expanded; l
 
 - High-priority review targets: 8
 - Medium-priority targets: 22
-- Low-priority targets: 0
+- Low-priority targets: 1
 - Alignment-only / uncertain regions: 5
 
 Agreement is descriptive and separate from inspection priority:
 
 - High agreement: 0 segment(s)
 - Low agreement: 33 segment(s)
-- Uncertain agreement: 2 segment(s)
+- Uncertain agreement: 3 segment(s)
 - Unaligned candidate blocks: 1
 
 ## High-priority review targets
 
 | Segment | Agreement | Priority reason | Flags | Examples |
 |---|---|---|---|---|
-| S002 | low | repeated suspicious token in well aligned readings | candidate_disagreement, possible_ocr_artifact, unaligned | tesseract-deu-latf-psm3: im / tesseract-fraktur-psm3: ih; tesseract-deu-latf-psm3: dec< / tesseract-fraktur-psm3: dech; tesseract… |
-| S006 | low | repeated suspicious token in well aligned readings | candidate_disagreement, possible_ocr_artifact, uncertain_alignment | tesseract-deu-latf-psm3: 5) / tesseract-fraktur-psm3: =); tesseract-deu-latf-psm3: aunc< / tesseract-fraktur-psm3: auh; tesseract… |
-| S007 | low | competing numeric readings | candidate_disagreement, line_end_hyphen_disagreement, possible_ocr_artifact, suspicious_i… | tesseract-deu-latf-psm3: 1823 herausgrgebenen „„pose- / tesseract-fraktur-psm3: 182z herauägegebenen „„poses; tesseract-deu-latf-… |
-| S010 | low | repeated suspicious token in well aligned readings | candidate_disagreement, possible_ocr_artifact, possible_digit_letter_confusion, uncertain… | tesseract-deu-latf-psm3: ([823 nro« / tesseract-fraktur-psm3: (1823 nro»; tesseract-deu-latf-psm6: ([823 nro« / tesseract-fraktur… |
-| S014 | low | repeated suspicious token in well aligned readings | candidate_disagreement, possible_ocr_artifact, suspicious_internal_symbol, uncertain_alig… | tesseract-deu-latf-psm3: 3 / tesseract-fraktur-psm3: ;; tesseract-deu-latf-psm3: hö<st / tesseract-fraktur-psm3: höht; tesseract-… |
-| S016 | low | repeated suspicious token in well aligned readings | candidate_disagreement, possible_ocr_artifact, suspicious_internal_symbol, uncertain_alig… | tesseract-deu-latf-psm3: mazas, welc<e / tesseract-fraktur-psm3: mazas," welche; tesseract-deu-latf-psm3: selbst / tesseract-frak… |
-| S019 | uncertain | repeated suspicious token in well aligned readings | possible_ocr_artifact, uncertain_alignment | tesseract-deu-latf-psm3: [823; tesseract-deu-latf-psm6: [823 |
-| S022 | low | repeated suspicious token in well aligned readings | candidate_disagreement, possible_ocr_artifact, suspicious_internal_symbol | tesseract-deu-latf-psm3: nol], / tesseract-fraktur-psm3: moll,; tesseract-deu-latf-psm3: or<esters / tesseract-fraktur-psm3: orch… |
+| S003 | low | repeated suspicious token in well aligned readings | candidate_disagreement, possible_ocr_artifact, unaligned | tesseract-deu-latf-psm3: im / tesseract-fraktur-psm3: ih; tesseract-deu-latf-psm3: dec< / tesseract-fraktur-psm3: dech; tesseract… |
+| S007 | low | repeated suspicious token in well aligned readings | candidate_disagreement, possible_ocr_artifact, uncertain_alignment | tesseract-deu-latf-psm3: 5) / tesseract-fraktur-psm3: =); tesseract-deu-latf-psm3: aunc< / tesseract-fraktur-psm3: auh; tesseract… |
+| S008 | low | competing numeric readings | candidate_disagreement, line_end_hyphen_disagreement, possible_ocr_artifact, suspicious_i… | tesseract-deu-latf-psm3: 1823 herausgrgebenen „„pose- / tesseract-fraktur-psm3: 182z herauägegebenen „„poses; tesseract-deu-latf-… |
+| S011 | low | repeated suspicious token in well aligned readings | candidate_disagreement, possible_ocr_artifact, possible_digit_letter_confusion, uncertain… | tesseract-deu-latf-psm3: ([823 nro« / tesseract-fraktur-psm3: (1823 nro»; tesseract-deu-latf-psm6: ([823 nro« / tesseract-fraktur… |
+| S015 | low | repeated suspicious token in well aligned readings | candidate_disagreement, possible_ocr_artifact, suspicious_internal_symbol, uncertain_alig… | tesseract-deu-latf-psm3: 3 / tesseract-fraktur-psm3: ;; tesseract-deu-latf-psm3: hö<st / tesseract-fraktur-psm3: höht; tesseract-… |
+| S017 | low | repeated suspicious token in well aligned readings | candidate_disagreement, possible_ocr_artifact, suspicious_internal_symbol, uncertain_alig… | tesseract-deu-latf-psm3: mazas, welc<e / tesseract-fraktur-psm3: mazas," welche; tesseract-deu-latf-psm3: selbst / tesseract-frak… |
+| S020 | uncertain | repeated suspicious token in well aligned readings | possible_ocr_artifact, uncertain_alignment | tesseract-deu-latf-psm3: [823; tesseract-deu-latf-psm6: [823 |
+| S023 | low | repeated suspicious token in well aligned readings | candidate_disagreement, possible_ocr_artifact, suspicious_internal_symbol | tesseract-deu-latf-psm3: nol], / tesseract-fraktur-psm3: moll,; tesseract-deu-latf-psm3: or<esters / tesseract-fraktur-psm3: orch… |
 
 ### High-priority candidate readings
 
-### S002 · anchor OCR line(s) 4
+### S003 · anchor OCR line(s) 4
 
 Inspection priority: high; agreement: low; reasons: repeated_suspicious_token_in_well_aligned_readings; flags: candidate_disagreement, possible_ocr_artifact, unaligned
 
@@ -69,11 +70,11 @@ ni, ſo konnte im ähnliche Erſcheinungen dec< niemals billigen, und
 ni, ſo konnte ih ähnliche Erſcheinungen dech niemals billigen, und
 ```
 
-### S006 · anchor OCR line(s) 11
+### S007 · anchor OCR line(s) 11
 
 Inspection priority: high; agreement: low; reasons: repeated_suspicious_token_in_well_aligned_readings; flags: candidate_disagreement, possible_ocr_artifact, uncertain_alignment
 
-**internet_archive** — lines 11; alignment: uncertain (similarity 0.690; anchor coverage 100%)
+**internet_archive** — lines 11; alignment: uncertain (similarity 0.681; anchor coverage 100%)
 
 ```text
 *) STer Berfaffer beS ttorli'genben SBerfeö maefte aueb furje biograpbifdje
@@ -91,13 +92,13 @@ Inspection priority: high; agreement: low; reasons: repeated_suspicious_token_in
 5) Der Verfaſſer des vorliegenden Werkes madte aunc< kurze biographiſche
 ```
 
-**tesseract-fraktur-psm3** — lines 11; alignment: aligned (similarity 0.971; anchor coverage 100%)
+**tesseract-fraktur-psm3** — lines 11; alignment: aligned (similarity 0.964; anchor coverage 100%)
 
 ```text
 =) Der Verfaſſer des vorliegenden Werkes madte auh kurze biographiſche
 ```
 
-### S007 · anchor OCR line(s) 12
+### S008 · anchor OCR line(s) 12
 
 Inspection priority: high; agreement: low; reasons: competing_numeric_readings; flags: candidate_disagreement, line_end_hyphen_disagreement, possible_ocr_artifact, suspicious_internal_symbol, possible_digit_letter_confusion, uncertain_alignment
 
@@ -125,7 +126,7 @@ Züge von Mazas, in der ven ihm 1823 herausgrgebenen „„Poſe-
 Züge von Mazas, in der ven ihm 182Z herauägegebenen „„Poſes
 ```
 
-### S010 · anchor OCR line(s) 15
+### S011 · anchor OCR line(s) 15
 
 Inspection priority: high; agreement: low; reasons: repeated_suspicious_token_in_well_aligned_readings; flags: candidate_disagreement, possible_ocr_artifact, possible_digit_letter_confusion, uncertain_alignment
 
@@ -153,11 +154,11 @@ Frankfurt a. M. in der Leipziger muſikaliſchen Zeitung ([823 Nro«
 Frankfurt a. M. in der Leipziger muſikaliſchen Zeitung (1823 Nro»
 ```
 
-### S014 · anchor OCR line(s) 24
+### S015 · anchor OCR line(s) 24
 
 Inspection priority: high; agreement: low; reasons: repeated_suspicious_token_in_well_aligned_readings; flags: candidate_disagreement, possible_ocr_artifact, suspicious_internal_symbol, uncertain_alignment
 
-**internet_archive** — lines 20; alignment: uncertain (similarity 0.700; anchor coverage 100%)
+**internet_archive** — lines 20; alignment: uncertain (similarity 0.691; anchor coverage 100%)
 
 ```text
 fen JBrife ; feine ftertigfett ift grofi bie Sntonation obne Säbel, t)öcf)fi
@@ -175,17 +176,17 @@ fen JBrife ; feine ftertigfett ift grofi bie Sntonation obne Säbel, t)öcf)fi
 ſen Weiſe 3 ſeine Fertigkeit iſt groß. die Intonation ohne Tadel, hö<ſt
 ```
 
-**tesseract-fraktur-psm3** — lines 20; alignment: aligned (similarity 0.978; anchor coverage 100%)
+**tesseract-fraktur-psm3** — lines 20; alignment: aligned (similarity 0.970; anchor coverage 100%)
 
 ```text
 ſen Weiſe ; ſeine Fertigkeit iſt groß. die Intonation ohne Tadel, höht
 ```
 
-### S016 · anchor OCR line(s) 26
+### S017 · anchor OCR line(s) 26
 
 Inspection priority: high; agreement: low; reasons: repeated_suspicious_token_in_well_aligned_readings; flags: candidate_disagreement, possible_ocr_artifact, suspicious_internal_symbol, uncertain_alignment
 
-**internet_archive** — lines 22; alignment: uncertain (similarity 0.688; anchor coverage 100%)
+**internet_archive** — lines 22; alignment: uncertain (similarity 0.694; anchor coverage 100%)
 
 ```text
 genen Gompofitienen beö £rn. 9?J a g a 6 , rceld)c er tbeilß fetbft »or;
@@ -209,11 +210,11 @@ genen Compoſitionen des Hrn. Mazas, welc<e er theils ſelbſt vor-
 genen Compoſitionen des Hrn. Mazas," welche er theils ſelb vor-
 ```
 
-### S019 · anchor OCR line(s) 32
+### S020 · anchor OCR line(s) 32
 
 Inspection priority: high; agreement: uncertain; reasons: repeated_suspicious_token_in_well_aligned_readings; flags: possible_ocr_artifact, uncertain_alignment
 
-**internet_archive** — lines 26; alignment: uncertain (similarity 0.771; anchor coverage 100%)
+**internet_archive** — lines 26; alignment: uncertain (similarity 0.778; anchor coverage 100%)
 
 ```text
 feroatoriumS in yavii , fyoX am 4. unb 17. Februar 1823 b»'r
@@ -237,7 +238,7 @@ feroatoriumS in yavii , fyoX am 4. unb 17. Februar 1823 b»'r
 ſervatoriums in Paris, hat am 4. und 17. Februar [823 hier
 ```
 
-### S022 · anchor OCR line(s) 38
+### S023 · anchor OCR line(s) 38
 
 Inspection priority: high; agreement: low; reasons: repeated_suspicious_token_in_well_aligned_readings; flags: candidate_disagreement, possible_ocr_artifact, suspicious_internal_symbol
 
@@ -269,44 +270,44 @@ moll, eine Barcarole mit Begleitung des Orcheſters und eine Phans
 
 | Segment | Agreement | Priority reason | Flags | Examples |
 |---|---|---|---|---|
-| S003 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, suspicious_internal_symbol, possible_digit… | tesseract-deu-latf-psm3: ich / tesseract-fraktur-psm3: ih; tesseract-deu-latf-psm3: unwürd:gen / tesseract-fraktur-psm3: unwürdig… |
-| S004 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, possible_digit_letter_confusion, uncertain… | tesseract-deu-latf-psm3: indeß / tesseract-fraktur-psm3: indes; tesseract-deu-latf-psm6: indeß / tesseract-fraktur-psm3: indes; i… |
-| S005 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, uncertain_alignment | tesseract-deu-latf-psm3: s. w. *) = / tesseract-fraktur-psm3: sw. *)—; tesseract-deu-latf-psm6: s. w. *) = / tesseract-fraktur-ps… |
-| S009 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, suspicious_internal_symbol, uncertain_alig… | tesseract-deu-latf-psm3: als / tesseract-fraktur-psm3: alê; tesseract-deu-latf-psm6: als / tesseract-fraktur-psm3: alê; internet_… |
-| S011 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, uncertain_alignment | tesseract-deu-latf-psm3: 2,): / tesseract-deu-latf-psm6: 12.) :; tesseract-deu-latf-psm6: 12.) : / tesseract-fraktur-psm3: 2,):; … |
-| S012 | low | exact consensus with lexical outlier | candidate_disagreement, uncertain_alignment | tesseract-deu-latf-psm3: vorzüalihen / tesseract-fraktur-psm3: vorzüali-hen; tesseract-deu-latf-psm3: meister. / tesseract-fraktu… |
-| S013 | low | near consensus with outlier | candidate_disagreement | tesseract-deu-latf-psm3: reihen, / tesseract-fraktur-psm3: reihen.; tesseract-deu-latf-psm3: grandioa / tesseract-fraktur-psm3: g… |
-| S015 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, possible_digit_letter_confusion, uncertain… | tesseract-deu-latf-psm3: bemerkenswerth / tesseract-fraktur-psm3: bemerkenêwerth; tesseract-deu-latf-psm3: div herrliche / tesser… |
-| S017 | low | exact consensus with lexical outlier | candidate_disagreement, line_end_hyphen_disagreement, uncertain_alignment | tesseract-deu-latf-psm3: ließ; / tesseract-fraktur-psm3: ließ,; tesseract-deu-latf-psm3: lo- / tesseract-fraktur-psm3: los |
-| S018 | low | exact consensus with lexical outlier | candidate_disagreement, line_end_hyphen_disagreement, possible_ocr_artifact, possible_dig… | tesseract-deu-latf-psm3: noh / tesseract-fraktur-psm3: no<; tesseract-deu-latf-psm3: rühmlicher / tesseract-fraktur-psm3: rühmliw… |
-| S020 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, uncertain_alignment | tesseract-deu-latf-psm3: sich / tesseract-fraktur-psm3: si<; tesseract-deu-latf-psm6: sich / tesseract-fraktur-psm3: si<; tessera… |
-| S023 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, possible_digit_letter_confusion, uncertain… | tesseract-deu-latf-psm3: ∅ / tesseract-deu-latf-psm6: \|; tesseract-deu-latf-psm3: tanerod yz / tesseract-fraktur-psm3: tanercd y… |
-| S024 | low | near consensus with outlier | candidate_disagreement, line_end_hyphen_disagreement, possible_ocr_artifact | tesseract-deu-latf-psm3: ∅ / tesseract-deu-latf-psm6: \|; tesseract-deu-latf-psm3: vorgetragen; auch / tesseract-fraktur-psm3: vo… |
-| S025 | low | near consensus with outlier | candidate_disagreement | tesseract-deu-latf-psm3: lin-goncert / tesseract-fraktur-psm3: lin-concert; tesseract-deu-latf-psm3: pittoresque, / tesseract-fra… |
-| S027 | low | exact consensus with lexical outlier | candidate_disagreement, possible_digit_letter_confusion, uncertain_alignment | tesseract-deu-latf-psm3: desergus / tesseract-fraktur-psm3: descrgus; tesseract-deu-latf-psm3: vortrugzen , endlich / tesseract-f… |
-| S028 | low | exact consensus with lexical outlier | candidate_disagreement, line_end_hyphen_disagreement, possible_ocr_artifact, suspicious_i… | tesseract-deu-latf-psm3: kräf»- / tesseract-fraktur-psm3: kräf-; tesseract-deu-latf-psm6: kräf»- / tesseract-fraktur-psm3: kräf-;… |
-| S030 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, possible_digit_letter_confusion, uncertain… | tesseract-deu-latf-psm3: ∅ / tesseract-deu-latf-psm6: \|; tesseract-deu-latf-psm3: z auch) / tesseract-fraktur-psm3: 5 auch; tess… |
-| S031 | low | exact consensus with lexical outlier | candidate_disagreement, line_end_hyphen_disagreement, possible_ocr_artifact, uncertain_al… | tesseract-deu-latf-psm3: legato- / tesseract-fraktur-psm3: legato.; tesseract-deu-latf-psm3: ori- / tesseract-fraktur-psm3: oriz;… |
-| S032 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, uncertain_alignment | tesseract-deu-latf-psm3: ∅ / tesseract-deu-latf-psm6: \|; tesseract-deu-latf-psm3: auch / tesseract-fraktur-psm3: auh; tesseract-… |
-| S033 | low | exact consensus with lexical outlier | candidate_disagreement, line_end_hyphen_disagreement, possible_digit_letter_confusion | internet_archive: bie ouoerture aui feiner cper c5orina / tesseract-deu-latf-psm3: die ouverture aus seiner oper corina; internet… |
-| S034 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, suspicious_internal_symbol, possible_digit… | tesseract-deu-latf-psm3: schenden beifall. == / tesseract-fraktur-psm3: \henden beifall, —; tesseract-deu-latf-psm3: berichtete /… |
-| S035 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, suspicious_internal_symbol, possible_digit… | tesseract-deu-latf-psm3: a. / tesseract-fraktur-psm3: a,; tesseract-deu-latf-psm3: ho<hbe- / tesseract-fraktur-psm3: hohbe-; inte… |
+| S004 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, suspicious_internal_symbol, possible_digit… | tesseract-deu-latf-psm3: ich / tesseract-fraktur-psm3: ih; tesseract-deu-latf-psm3: unwürd:gen / tesseract-fraktur-psm3: unwürdig… |
+| S005 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, possible_digit_letter_confusion, uncertain… | tesseract-deu-latf-psm3: indeß / tesseract-fraktur-psm3: indes; tesseract-deu-latf-psm6: indeß / tesseract-fraktur-psm3: indes; i… |
+| S006 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, uncertain_alignment | tesseract-deu-latf-psm3: s. w. *) = / tesseract-fraktur-psm3: sw. *)—; tesseract-deu-latf-psm6: s. w. *) = / tesseract-fraktur-ps… |
+| S010 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, suspicious_internal_symbol, uncertain_alig… | tesseract-deu-latf-psm3: als / tesseract-fraktur-psm3: alê; tesseract-deu-latf-psm6: als / tesseract-fraktur-psm3: alê; internet_… |
+| S012 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, uncertain_alignment | tesseract-deu-latf-psm3: 2,): / tesseract-deu-latf-psm6: 12.) :; tesseract-deu-latf-psm6: 12.) : / tesseract-fraktur-psm3: 2,):; … |
+| S013 | low | exact consensus with lexical outlier | candidate_disagreement, uncertain_alignment | tesseract-deu-latf-psm3: vorzüalihen / tesseract-fraktur-psm3: vorzüali-hen; tesseract-deu-latf-psm3: meister. / tesseract-fraktu… |
+| S014 | low | near consensus with outlier | candidate_disagreement | tesseract-deu-latf-psm3: reihen, / tesseract-fraktur-psm3: reihen.; tesseract-deu-latf-psm3: grandioa / tesseract-fraktur-psm3: g… |
+| S016 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, possible_digit_letter_confusion, uncertain… | tesseract-deu-latf-psm3: bemerkenswerth / tesseract-fraktur-psm3: bemerkenêwerth; tesseract-deu-latf-psm3: div herrliche / tesser… |
+| S018 | low | exact consensus with lexical outlier | candidate_disagreement, line_end_hyphen_disagreement, uncertain_alignment | tesseract-deu-latf-psm3: ließ; / tesseract-fraktur-psm3: ließ,; tesseract-deu-latf-psm3: lo- / tesseract-fraktur-psm3: los |
+| S019 | low | exact consensus with lexical outlier | candidate_disagreement, line_end_hyphen_disagreement, possible_ocr_artifact, possible_dig… | tesseract-deu-latf-psm3: noh / tesseract-fraktur-psm3: no<; tesseract-deu-latf-psm3: rühmlicher / tesseract-fraktur-psm3: rühmliw… |
+| S021 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, uncertain_alignment | tesseract-deu-latf-psm3: sich / tesseract-fraktur-psm3: si<; tesseract-deu-latf-psm6: sich / tesseract-fraktur-psm3: si<; tessera… |
+| S024 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, possible_digit_letter_confusion, uncertain… | tesseract-deu-latf-psm3: ∅ / tesseract-deu-latf-psm6: \|; tesseract-deu-latf-psm3: tanerod yz / tesseract-fraktur-psm3: tanercd y… |
+| S025 | low | near consensus with outlier | candidate_disagreement, line_end_hyphen_disagreement, possible_ocr_artifact | tesseract-deu-latf-psm3: ∅ / tesseract-deu-latf-psm6: \|; tesseract-deu-latf-psm3: vorgetragen; auch / tesseract-fraktur-psm3: vo… |
+| S026 | low | near consensus with outlier | candidate_disagreement | tesseract-deu-latf-psm3: lin-goncert / tesseract-fraktur-psm3: lin-concert; tesseract-deu-latf-psm3: pittoresque, / tesseract-fra… |
+| S028 | low | exact consensus with lexical outlier | candidate_disagreement, possible_digit_letter_confusion, uncertain_alignment | tesseract-deu-latf-psm3: desergus / tesseract-fraktur-psm3: descrgus; tesseract-deu-latf-psm3: vortrugzen , endlich / tesseract-f… |
+| S029 | low | exact consensus with lexical outlier | candidate_disagreement, line_end_hyphen_disagreement, possible_ocr_artifact, suspicious_i… | tesseract-deu-latf-psm3: kräf»- / tesseract-fraktur-psm3: kräf-; tesseract-deu-latf-psm6: kräf»- / tesseract-fraktur-psm3: kräf-;… |
+| S031 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, possible_digit_letter_confusion, uncertain… | tesseract-deu-latf-psm3: ∅ / tesseract-deu-latf-psm6: \|; tesseract-deu-latf-psm3: z auch) / tesseract-fraktur-psm3: 5 auch; tess… |
+| S032 | low | exact consensus with lexical outlier | candidate_disagreement, line_end_hyphen_disagreement, possible_ocr_artifact, uncertain_al… | tesseract-deu-latf-psm3: legato- / tesseract-fraktur-psm3: legato.; tesseract-deu-latf-psm3: ori- / tesseract-fraktur-psm3: oriz;… |
+| S033 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, uncertain_alignment | tesseract-deu-latf-psm3: ∅ / tesseract-deu-latf-psm6: \|; tesseract-deu-latf-psm3: auch / tesseract-fraktur-psm3: auh; tesseract-… |
+| S034 | low | exact consensus with lexical outlier | candidate_disagreement, line_end_hyphen_disagreement, possible_digit_letter_confusion | internet_archive: bie ouoerture aui feiner cper c5orina / tesseract-deu-latf-psm3: die ouverture aus seiner oper corina; internet… |
+| S035 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, suspicious_internal_symbol, possible_digit… | tesseract-deu-latf-psm3: schenden beifall. == / tesseract-fraktur-psm3: \henden beifall, —; tesseract-deu-latf-psm3: berichtete /… |
+| S036 | low | exact consensus with lexical outlier | candidate_disagreement, possible_ocr_artifact, suspicious_internal_symbol, possible_digit… | tesseract-deu-latf-psm3: a. / tesseract-fraktur-psm3: a,; tesseract-deu-latf-psm3: ho<hbe- / tesseract-fraktur-psm3: hohbe-; inte… |
 
 ## Low-priority review targets
 
 | Segment | Agreement | Priority reason | Flags | Examples |
 |---|---|---|---|---|
-| — | — | None | — | — |
+| S001 | low | formatting only or identical | candidate_disagreement, punctuation_disagreement, possible_ocr_artifact | internet_archive: ∅ / tesseract-deu-latf-psm6: \|; tesseract-deu-latf-psm3: ∅ / tesseract-deu-latf-psm6: \|; tesseract-deu-latf-p… |
 
 ## Alignment-only / uncertain regions
 
 | Segment | Agreement | Priority reason | Flags | Examples |
 |---|---|---|---|---|
-| S001 | low | text stable but alignment incomplete | candidate_disagreement, possible_ocr_artifact, uncertain_alignment | tesseract-deu-latf-psm3: ∅ / tesseract-deu-latf-psm6: \|; tesseract-deu-latf-psm6: \| / tesseract-fraktur-psm3: ∅; tesseract-deu-… |
-| S008 | low | text stable but alignment incomplete | candidate_disagreement, punctuation_disagreement, possible_digit_letter_confusion, uncert… | tesseract-deu-latf-psm3: zeitschrift** / tesseract-fraktur-psm3: zeitschrift“; tesseract-deu-latf-psm6: zeitschrift** / tesseract… |
-| S021 | low | text stable but alignment incomplete | candidate_disagreement, punctuation_disagreement, possible_digit_letter_confusion, uncert… | tesseract-deu-latf-psm3: baillot*“s / tesseract-fraktur-psm3: baillot®s; tesseract-deu-latf-psm6: baillot*“s / tesseract-fraktur-… |
-| S026 | low | text stable but alignment incomplete | candidate_disagreement, uncertain_alignment | tesseract-deu-latf-psm3: tonkunst , / tesseract-fraktur-psm3: tonkunst,; tesseract-deu-latf-psm6: tonkunst , / tesseract-fraktur-… |
-| S029 | uncertain | text stable but alignment incomplete | possible_ocr_artifact, uncertain_alignment | internet_archive: ^tpplicatur |
+| S002 | uncertain | text stable but alignment incomplete | unaligned |  |
+| S009 | low | text stable but alignment incomplete | candidate_disagreement, punctuation_disagreement, possible_digit_letter_confusion, uncert… | tesseract-deu-latf-psm3: zeitschrift** / tesseract-fraktur-psm3: zeitschrift“; tesseract-deu-latf-psm6: zeitschrift** / tesseract… |
+| S022 | low | text stable but alignment incomplete | candidate_disagreement, punctuation_disagreement, possible_digit_letter_confusion, uncert… | tesseract-deu-latf-psm3: baillot*“s / tesseract-fraktur-psm3: baillot®s; tesseract-deu-latf-psm6: baillot*“s / tesseract-fraktur-… |
+| S027 | low | text stable but alignment incomplete | candidate_disagreement, punctuation_disagreement, uncertain_alignment | tesseract-deu-latf-psm3: tonkunst , / tesseract-fraktur-psm3: tonkunst,; tesseract-deu-latf-psm6: tonkunst , / tesseract-fraktur-… |
+| S030 | uncertain | text stable but alignment incomplete | possible_ocr_artifact, uncertain_alignment | internet_archive: ^tpplicatur |
 
 ## Other candidate readings
 
@@ -315,7 +316,7 @@ Full original OCR and alignment data are also retained in the JSON packet.
 <details>
 <summary>Show medium, low, and alignment-only candidate readings</summary>
 
-### S003 · anchor OCR line(s) 5, 6
+### S004 · anchor OCR line(s) 5, 6
 
 Inspection priority: medium; agreement: low; reasons: exact_consensus_with_lexical_outlier; flags: candidate_disagreement, possible_ocr_artifact, suspicious_internal_symbol, possible_digit_letter_confusion, uncertain_alignment
 
@@ -347,7 +348,7 @@ ih weiß, daß er von dieſen, ſeiner unwürdigen Spielereien immer
 mehr zurü>gefkommen iſt. Mazas war einige Zeit Paganini?s
 ```
 
-### S004 · anchor OCR line(s) 7, 8
+### S005 · anchor OCR line(s) 7, 8
 
 Inspection priority: medium; agreement: low; reasons: exact_consensus_with_lexical_outlier; flags: candidate_disagreement, possible_ocr_artifact, possible_digit_letter_confusion, uncertain_alignment
 
@@ -379,11 +380,11 @@ Schüler, dem er indes ganz andere Sachen mit zu verdanken haben
 dürfte, d. h. den reinen Ton, das geſangreiche, das nette und deli-
 ```
 
-### S005 · anchor OCR line(s) 9
+### S006 · anchor OCR line(s) 9
 
 Inspection priority: medium; agreement: low; reasons: exact_consensus_with_lexical_outlier; flags: candidate_disagreement, possible_ocr_artifact, uncertain_alignment
 
-**internet_archive** — lines 9; alignment: uncertain (similarity 0.743; anchor coverage 100%)
+**internet_archive** — lines 9; alignment: uncertain (similarity 0.734; anchor coverage 100%)
 
 ```text
 räte Spiel u. f. w. *) — iBocb, um npd} eine grage 511 tfmn! fagen
@@ -401,13 +402,13 @@ kate Spiel u. ſ. w. *) = Doch, um noch eine Frage zu thun! ſagen
 kate Spiel u. ſ. w. *) = Doch, um noch eine Frage zu thun! ſagen
 ```
 
-**tesseract-fraktur-psm3** — lines 9; alignment: aligned (similarity 0.982; anchor coverage 100%)
+**tesseract-fraktur-psm3** — lines 9; alignment: aligned (similarity 0.991; anchor coverage 100%)
 
 ```text
 kate Spiel u. ſw. *)— Doch, um noch eine Frage zu thun! ſagen
 ```
 
-### S009 · anchor OCR line(s) 14
+### S010 · anchor OCR line(s) 14
 
 Inspection priority: medium; agreement: low; reasons: exact_consensus_with_lexical_outlier; flags: candidate_disagreement, possible_ocr_artifact, suspicious_internal_symbol, uncertain_alignment
 
@@ -435,7 +436,7 @@ Künſtler als ſeinen Gaſt zu empfangen. Uiber ihn ſchrieb man aus
 Künſtler alê ſeinen Gaſt zu empfangen. Uiber ihn ſchrieb man aus
 ```
 
-### S011 · anchor OCR line(s) 17
+### S012 · anchor OCR line(s) 17
 
 Inspection priority: medium; agreement: low; reasons: exact_consensus_with_lexical_outlier; flags: candidate_disagreement, possible_ocr_artifact, uncertain_alignment
 
@@ -451,7 +452,7 @@ Inspection priority: medium; agreement: low; reasons: exact_consensus_with_lexic
 2,): „Von fremden Tonkünſtlern hörten wir im Laufe des Winters
 ```
 
-**tesseract-deu-latf-psm6** — lines 15; alignment: aligned (similarity 0.983; anchor coverage 100%)
+**tesseract-deu-latf-psm6** — lines 15; alignment: aligned (similarity 0.991; anchor coverage 100%)
 
 ```text
 12.) : „Von fremden Tonkünſtlern hörten wir im Laufe des Winters
@@ -463,11 +464,11 @@ Inspection priority: medium; agreement: low; reasons: exact_consensus_with_lexic
 2,): „Von fremden Tonkünſtlern hörten wir im Laufe des Winters
 ```
 
-### S012 · anchor OCR line(s) 18, 20
+### S013 · anchor OCR line(s) 18, 20
 
 Inspection priority: medium; agreement: low; reasons: exact_consensus_with_lexical_outlier; flags: candidate_disagreement, uncertain_alignment
 
-**internet_archive** — lines 17, 18; alignment: uncertain (similarity 0.710; anchor coverage 100%)
+**internet_archive** — lines 17, 18; alignment: uncertain (similarity 0.708; anchor coverage 100%)
 
 ```text
 mand)cn rorjibli ren unb bereit» aditbar befannten OTeifter. £erc
@@ -488,14 +489,14 @@ manchen vorzüalihen und bereits ahtbar bekannten Meiſter. Herr
 M a z as, einer der ausgezeichneteſten franzöſiſchen Geigenſpieler , ero
 ```
 
-**tesseract-fraktur-psm3** — lines 17, 18; alignment: aligned (similarity 0.949; anchor coverage 100%)
+**tesseract-fraktur-psm3** — lines 17, 18; alignment: aligned (similarity 0.948; anchor coverage 100%)
 
 ```text
 manchen vorzüali-hen und bereits ahtbar bekannten Meiſter, Herr
 Mazas, einer der ausgezcichneteſten franzöſiſchen Geigenſpieler , ers
 ```
 
-### S013 · anchor OCR line(s) 22
+### S014 · anchor OCR line(s) 22
 
 Inspection priority: medium; agreement: low; reasons: near_consensus_with_outlier; flags: candidate_disagreement
 
@@ -523,11 +524,11 @@ effnete ben «Reiben. Gr bebanbelt fein Snftrument in einer gtanbio*
 öffnete den Reihen. Er behandelt ſein Inſtrument in einer grandios
 ```
 
-### S015 · anchor OCR line(s) 25
+### S016 · anchor OCR line(s) 25
 
 Inspection priority: medium; agreement: low; reasons: exact_consensus_with_lexical_outlier; flags: candidate_disagreement, possible_ocr_artifact, possible_digit_letter_confusion, uncertain_alignment
 
-**internet_archive** — lines 21; alignment: uncertain (similarity 0.723; anchor coverage 100%)
+**internet_archive** — lines 21; alignment: uncertain (similarity 0.718; anchor coverage 100%)
 
 ```text
 bemerfenStrertb aber bie berrliaV gübtung be$ BogenS. — 2Me et*
@@ -545,13 +546,13 @@ bemerkenswerth aber div herrliche Führung des Bogens, = Die ei-
 bemerkenswerth aber div herrliche Führung des Bogens, = Die ei-
 ```
 
-**tesseract-fraktur-psm3** — lines 21; alignment: aligned (similarity 0.958; anchor coverage 100%)
+**tesseract-fraktur-psm3** — lines 21; alignment: aligned (similarity 0.957; anchor coverage 100%)
 
 ```text
 bemerkenêwerth aber dir herrlihe Führung des Bogens, — Die ei-
 ```
 
-### S017 · anchor OCR line(s) 27
+### S018 · anchor OCR line(s) 27
 
 Inspection priority: medium; agreement: low; reasons: exact_consensus_with_lexical_outlier; flags: candidate_disagreement, line_end_hyphen_disagreement, uncertain_alignment
 
@@ -579,11 +580,11 @@ trug, theils vortragen ließ; ſtellen ſich weder einem beſondern Lo-
 trug, theils vortragen ließ, ſtellen ſich weder einem beſondern Los
 ```
 
-### S018 · anchor OCR line(s) 28, 30
+### S019 · anchor OCR line(s) 28, 30
 
 Inspection priority: medium; agreement: low; reasons: exact_consensus_with_lexical_outlier; flags: candidate_disagreement, line_end_hyphen_disagreement, possible_ocr_artifact, possible_digit_letter_confusion, uncertain_alignment
 
-**internet_archive** — lines 24, 25; alignment: uncertain (similarity 0.714; anchor coverage 100%)
+**internet_archive** — lines 24, 25; alignment: uncertain (similarity 0.712; anchor coverage 100%)
 
 ```text
 be, nod) einem befonbern Säbel Mofi." 5Rübmli<+er lautet eS au«
@@ -611,11 +612,11 @@ be, no< einem beſondern Tadel bloß.“ Rühmliwer lautet es aus
 Berlin (a. a, O.): „Her Fereol Mazas, Mitglied des Cone
 ```
 
-### S020 · anchor OCR line(s) 34
+### S021 · anchor OCR line(s) 34
 
 Inspection priority: medium; agreement: low; reasons: exact_consensus_with_lexical_outlier; flags: candidate_disagreement, possible_ocr_artifact, uncertain_alignment
 
-**internet_archive** — lines 27; alignment: uncertain (similarity 0.797; anchor coverage 100%)
+**internet_archive** — lines 27; alignment: uncertain (similarity 0.787; anchor coverage 100%)
 
 ```text
 (Soncert gegeben t unb ftd) barin als einen ber mürbigften ©cfyüler
@@ -639,7 +640,7 @@ Concert gegeben ; und ſich darin als einen der würdigſten Schüler
 Concert gegeben ; und ſi< darin als einen der würdigſten Schüler
 ```
 
-### S023 · anchor OCR line(s) 40
+### S024 · anchor OCR line(s) 40
 
 Inspection priority: medium; agreement: low; reasons: exact_consensus_with_lexical_outlier; flags: candidate_disagreement, possible_ocr_artifact, possible_digit_letter_confusion, uncertain_alignment
 
@@ -655,7 +656,7 @@ tafie über bie (Saojtine au6 Sancrcb t auf ber (r-@aite oen ibm
 taſie über die Cavatine aus Tanerod yz auf der (7 Saite von ihm
 ```
 
-**tesseract-deu-latf-psm6** — lines 30; alignment: aligned (similarity 0.992; anchor coverage 100%)
+**tesseract-deu-latf-psm6** — lines 30; alignment: aligned (similarity 1.000; anchor coverage 100%)
 
 ```text
 |      taſie über die Cavatine aus Tanerod yz auf der (7 Saite von ihm
@@ -667,7 +668,7 @@ taſie über die Cavatine aus Tanerod yz auf der (7 Saite von ihm
 taſie über die Cavatine aus Tanercd y auf der (7— Saîte von ihm
 ```
 
-### S024 · anchor OCR line(s) 41
+### S025 · anchor OCR line(s) 41
 
 Inspection priority: medium; agreement: low; reasons: near_consensus_with_outlier; flags: candidate_disagreement, line_end_hyphen_disagreement, possible_ocr_artifact
 
@@ -683,7 +684,7 @@ vorgetragen, aud) mit £rd)efter;Begleitung, unb im jmetten ein Bio;
 vorgetragen; auch mit Orcheſter-Begleitung, und im zweiten ein Vio-
 ```
 
-**tesseract-deu-latf-psm6** — lines 31; alignment: aligned (similarity 0.992; anchor coverage 100%)
+**tesseract-deu-latf-psm6** — lines 31; alignment: aligned (similarity 1.000; anchor coverage 100%)
 
 ```text
 |      vorgetragen; auch mit Orcheſter-Begleitung, und im zweiten ein Vio-
@@ -695,7 +696,7 @@ vorgetragen; auch mit Orcheſter-Begleitung, und im zweiten ein Vio-
 vorgetragen, auh mit Orcheſter-Begleitung, und im zweiten ein Vio-
 ```
 
-### S025 · anchor OCR line(s) 42
+### S026 · anchor OCR line(s) 42
 
 Inspection priority: medium; agreement: low; reasons: near_consensus_with_outlier; flags: candidate_disagreement
 
@@ -723,11 +724,11 @@ lin-Goncert im genre pittoresque, einen lyriſchen Geſang (Anruf an
 lin-Concert im genre Ppittoresque, einen lyriſchen Geſang (Anruf an
 ```
 
-### S027 · anchor OCR line(s) 47
+### S028 · anchor OCR line(s) 47
 
 Inspection priority: medium; agreement: low; reasons: exact_consensus_with_lexical_outlier; flags: candidate_disagreement, possible_digit_letter_confusion, uncertain_alignment
 
-**internet_archive** — lines 35; alignment: uncertain (similarity 0.797; anchor coverage 100%)
+**internet_archive** — lines 35; alignment: uncertain (similarity 0.793; anchor coverage 100%)
 
 ```text
 unb £err 25efcrgu6 iit obligate £arfe oortrugen , enblid) auf Be*
@@ -745,13 +746,13 @@ und Herr Deſergus die obligate Harfe vortrugzen , endlich auf Be-
 und Herr Deſergus die obligate Harfe vortrugzen , endlich auf Be-
 ```
 
-**tesseract-fraktur-psm3** — lines 35; alignment: aligned (similarity 0.959; anchor coverage 100%)
+**tesseract-fraktur-psm3** — lines 35; alignment: aligned (similarity 0.967; anchor coverage 100%)
 
 ```text
 und Herr Deſcrgus die obligate Harfe vortruzen, endlih auf Be-
 ```
 
-### S028 · anchor OCR line(s) 49
+### S029 · anchor OCR line(s) 49
 
 Inspection priority: medium; agreement: low; reasons: exact_consensus_with_lexical_outlier; flags: candidate_disagreement, line_end_hyphen_disagreement, possible_ocr_artifact, suspicious_internal_symbol, possible_digit_letter_confusion
 
@@ -779,7 +780,7 @@ gehren die Barcarole. Er gefiel ſehr wegen ſeiner ausgezeichnet kräf»-
 gehren die Barcarole. Er gefiel ſehr wegen ſeiner ausgezeichnet kräf-
 ```
 
-### S030 · anchor OCR line(s) 51
+### S031 · anchor OCR line(s) 51
 
 Inspection priority: medium; agreement: low; reasons: exact_consensus_with_lexical_outlier; flags: candidate_disagreement, possible_ocr_artifact, possible_digit_letter_confusion, uncertain_alignment
 
@@ -795,7 +796,7 @@ tener. gertigf eit j aud) jeigte er in ber nationalen Barearole fd)öne5
 tenen Fertigkeit z auch) zeigte er in der nationalen Barcarole ſchönes
 ```
 
-**tesseract-deu-latf-psm6** — lines 38; alignment: aligned (similarity 0.993; anchor coverage 100%)
+**tesseract-deu-latf-psm6** — lines 38; alignment: aligned (similarity 1.000; anchor coverage 100%)
 
 ```text
 |      tenen Fertigkeit z auch) zeigte er in der nationalen Barcarole ſchönes
@@ -807,11 +808,11 @@ tenen Fertigkeit z auch) zeigte er in der nationalen Barcarole ſchönes
 tenen Fertigkeit 5 auch zeigte er in der nationalen Barcarole ſchönes
 ```
 
-### S031 · anchor OCR line(s) 53
+### S032 · anchor OCR line(s) 53
 
 Inspection priority: medium; agreement: low; reasons: exact_consensus_with_lexical_outlier; flags: candidate_disagreement, line_end_hyphen_disagreement, possible_ocr_artifact, uncertain_alignment
 
-**internet_archive** — lines 39; alignment: uncertain (similarity 0.817; anchor coverage 100%)
+**internet_archive** — lines 39; alignment: uncertain (similarity 0.807; anchor coverage 100%)
 
 ```text
 5)ortamento unb gebiegeneö ßegato- ©eine ßompofition bat °ie^ ^^:
@@ -835,11 +836,11 @@ Portamento und gediegenes Legato- Seine Compoſition hat viel Ori-
 Portamento und gediegenes Legato. Seine Compoſition hat viel Oriz
 ```
 
-### S032 · anchor OCR line(s) 55
+### S033 · anchor OCR line(s) 55
 
 Inspection priority: medium; agreement: low; reasons: exact_consensus_with_lexical_outlier; flags: candidate_disagreement, possible_ocr_artifact, uncertain_alignment
 
-**internet_archive** — lines 40; alignment: uncertain (similarity 0.773; anchor coverage 100%)
+**internet_archive** — lines 40; alignment: uncertain (similarity 0.775; anchor coverage 100%)
 
 ```text
 ginalität/ unb ntd)t blofi bie bemcr!ten dompojitionen , fenbern audj
@@ -851,7 +852,7 @@ ginalität/ unb ntd)t blofi bie bemcr!ten dompojitionen , fenbern audj
 ginalität , und nicht bloß die bemerkten Compoſitionen , ſondern auch
 ```
 
-**tesseract-deu-latf-psm6** — lines 40; alignment: aligned (similarity 0.993; anchor coverage 100%)
+**tesseract-deu-latf-psm6** — lines 40; alignment: aligned (similarity 1.000; anchor coverage 100%)
 
 ```text
 |      ginalität , und nicht bloß die bemerkten Compoſitionen , ſondern auch
@@ -863,7 +864,7 @@ ginalität , und nicht bloß die bemerkten Compoſitionen , ſondern auch
 ginalität , und nicht bloß die bemerkten Compoſitionen , ſondern auh
 ```
 
-### S033 · anchor OCR line(s) 57
+### S034 · anchor OCR line(s) 57
 
 Inspection priority: medium; agreement: low; reasons: exact_consensus_with_lexical_outlier; flags: candidate_disagreement, line_end_hyphen_disagreement, possible_digit_letter_confusion
 
@@ -891,11 +892,11 @@ die Ouverture aus ſeiner Oper Corina im Capitol erhielten; rau-
 die Ouverture aus ſeiner Oper Corina im Capitol erhielten; rau-
 ```
 
-### S034 · anchor OCR line(s) 58
+### S035 · anchor OCR line(s) 58
 
 Inspection priority: medium; agreement: low; reasons: exact_consensus_with_lexical_outlier; flags: candidate_disagreement, possible_ocr_artifact, suspicious_internal_symbol, possible_digit_letter_confusion, uncertain_alignment
 
-**internet_archive** — lines 42; alignment: uncertain (similarity 0.748; anchor coverage 100%)
+**internet_archive** — lines 42; alignment: uncertain (similarity 0.743; anchor coverage 100%)
 
 ```text
 fdjenben Beifall. — Unb t>on SOt ü neben au5 beriitete man
@@ -913,17 +914,17 @@ fdjenben Beifall. — Unb t>on SOt ü neben au5 beriitete man
 ſchenden Beifall. == Und von München aus berichtete man
 ```
 
-**tesseract-fraktur-psm3** — lines 42; alignment: aligned (similarity 0.961; anchor coverage 100%)
+**tesseract-fraktur-psm3** — lines 42; alignment: aligned (similarity 0.960; anchor coverage 100%)
 
 ```text
 \henden Beifall, — Und von München aus berictcete man
 ```
 
-### S035 · anchor OCR line(s) 60, 62
+### S036 · anchor OCR line(s) 60, 62
 
 Inspection priority: medium; agreement: low; reasons: exact_consensus_with_lexical_outlier; flags: candidate_disagreement, possible_ocr_artifact, suspicious_internal_symbol, possible_digit_letter_confusion, uncertain_alignment
 
-**internet_archive** — lines 43, 44; alignment: uncertain (similarity 0.714; anchor coverage 100%)
+**internet_archive** — lines 43, 44; alignment: uncertain (similarity 0.715; anchor coverage 100%)
 
 ```text
 a.a.O. (1826, Sero. 51.) : ,,^t. gcreol «Dlaja«, ber fcocfcbf«
@@ -937,7 +938,7 @@ a. a. O. (1826, Nro. 51.): „Hr. Fereol Mazas, der ho<hbe-
 rühmte Saitenkünftler , ein Heros auf ſeinem Inſtrumente, wählte ſich
 ```
 
-**tesseract-deu-latf-psm6** — lines 43, 44; alignment: aligned (similarity 0.977; anchor coverage 100%)
+**tesseract-deu-latf-psm6** — lines 43, 44; alignment: aligned (similarity 0.989; anchor coverage 100%)
 
 ```text
        a. a. O. (1826, Nro. 51.) : „Hr. Fereol Mazas, der hochbe-
@@ -951,42 +952,67 @@ a, a. O. (1826, Nro. 51.): „Hr. Fereol Mazas, der hohbe-
 rühmte Saitenkünftler , ein Heros auf ſeinem Inſtrumente, wählte ſich
 ```
 
-### S001 · anchor OCR line(s) 1, 3
+### S001 · anchor OCR line(s) 1
 
-Inspection priority: alignment_only; agreement: low; reasons: text_stable_but_alignment_incomplete; flags: candidate_disagreement, possible_ocr_artifact, uncertain_alignment
+Inspection priority: low; agreement: low; reasons: formatting_only_or_identical; flags: candidate_disagreement, punctuation_disagreement, possible_ocr_artifact
 
-**internet_archive** — lines 1; alignment: uncertain (similarity 1.000; anchor coverage 50%)
+**internet_archive** — lines 1; alignment: aligned (similarity 1.000; anchor coverage 100%)
 
 ```text
 95
 ```
 
-**tesseract-deu-latf-psm3** — lines 1, 3; alignment: anchor (similarity 1.000; anchor coverage 100%)
+**tesseract-deu-latf-psm3** — lines 1; alignment: anchor (similarity 1.000; anchor coverage 100%)
 
 ```text
 95
-nicht minder zu meinen perſönlichen Freunden gehört, wie Pagani-
 ```
 
-**tesseract-deu-latf-psm6** — lines 1, 2; alignment: aligned (similarity 0.992; anchor coverage 100%)
+**tesseract-deu-latf-psm6** — lines 1; alignment: aligned (similarity 1.000; anchor coverage 100%)
 
 ```text
 |                                 95
-nicht minder zu meinen perſönlichen Freunden gehört, wie Pagani-
 ```
 
-**tesseract-fraktur-psm3** — lines 1, 3; alignment: aligned (similarity 1.000; anchor coverage 100%)
+**tesseract-fraktur-psm3** — lines 1; alignment: aligned (similarity 1.000; anchor coverage 100%)
 
 ```text
 95
+```
+
+### S002 · anchor OCR line(s) 3
+
+Inspection priority: alignment_only; agreement: uncertain; reasons: text_stable_but_alignment_incomplete; flags: unaligned
+
+**internet_archive** — lines none; alignment: unaligned (similarity 0.000; anchor coverage 0%)
+
+```text
+[no confidently aligned text]
+```
+
+**tesseract-deu-latf-psm3** — lines 3; alignment: anchor (similarity 1.000; anchor coverage 100%)
+
+```text
 nicht minder zu meinen perſönlichen Freunden gehört, wie Pagani-
 ```
 
-### S008 · anchor OCR line(s) 13
+**tesseract-deu-latf-psm6** — lines 2; alignment: aligned (similarity 1.000; anchor coverage 100%)
+
+```text
+nicht minder zu meinen perſönlichen Freunden gehört, wie Pagani-
+```
+
+**tesseract-fraktur-psm3** — lines 3; alignment: aligned (similarity 1.000; anchor coverage 100%)
+
+```text
+nicht minder zu meinen perſönlichen Freunden gehört, wie Pagani-
+```
+
+### S009 · anchor OCR line(s) 13
 
 Inspection priority: alignment_only; agreement: low; reasons: text_stable_but_alignment_incomplete; flags: candidate_disagreement, punctuation_disagreement, possible_digit_letter_confusion, uncertain_alignment
 
-**internet_archive** — lines 13; alignment: uncertain (similarity 0.714; anchor coverage 100%)
+**internet_archive** — lines 13; alignment: uncertain (similarity 0.720; anchor coverage 100%)
 
 ```text
 ner -ieitfdirift1' berannt, »teil er bimaU ©elegenbeit fjatt* » btefen
@@ -1010,11 +1036,11 @@ ner Zeitſchrift** bekannt, weil er damals Gelegenheit hatte, dieſen
 ner Zeitſchrift“ bekannt, weil er damals Gelegenheit hatte, dieſen
 ```
 
-### S021 · anchor OCR line(s) 36
+### S022 · anchor OCR line(s) 36
 
 Inspection priority: alignment_only; agreement: low; reasons: text_stable_but_alignment_incomplete; flags: candidate_disagreement, punctuation_disagreement, possible_digit_letter_confusion, uncertain_alignment
 
-**internet_archive** — lines 28; alignment: uncertain (similarity 0.746; anchor coverage 100%)
+**internet_archive** — lines 28; alignment: uncertain (similarity 0.736; anchor coverage 100%)
 
 ```text
 58 at Hot1 i beträfet. 2tm erften fpielte er ein Biolin s Cioncert E
@@ -1038,11 +1064,11 @@ Baillot*“s bewährt. Am erſten ſpielte er ein Violin - Concert E
 Baillot®s bewährt. Am erſten ſpielte er ein Violin - Concert E
 ```
 
-### S026 · anchor OCR line(s) 43, 45
+### S027 · anchor OCR line(s) 43, 45
 
-Inspection priority: alignment_only; agreement: low; reasons: text_stable_but_alignment_incomplete; flags: candidate_disagreement, uncertain_alignment
+Inspection priority: alignment_only; agreement: low; reasons: text_stable_but_alignment_incomplete; flags: candidate_disagreement, punctuation_disagreement, uncertain_alignment
 
-**internet_archive** — lines 33, 34; alignment: uncertain (similarity 0.691; anchor coverage 100%)
+**internet_archive** — lines 33, 34; alignment: uncertain (similarity 0.686; anchor coverage 100%)
 
 ```text
 bie Sonfunft , mit (Stjbren unb Begleitung beö Crdjefterö", in bem
@@ -1063,14 +1089,14 @@ die Tonkunſt , mit Chören und Begleitung des Orcheſters), in dem
 Mad, Schulz die Soloſtimme , Herr Mazas die obligate Violine
 ```
 
-**tesseract-fraktur-psm3** — lines 33, 34; alignment: aligned (similarity 0.992; anchor coverage 100%)
+**tesseract-fraktur-psm3** — lines 33, 34; alignment: aligned (similarity 1.000; anchor coverage 100%)
 
 ```text
 die Tonkunſt, mit Chören und Begleitung des Orcheſters), in dem
 Mad, Schulz die Soloſtimme , Herr Mazas die obligate Violine
 ```
 
-### S029 · anchor OCR line(s) 50
+### S030 · anchor OCR line(s) 50
 
 Inspection priority: alignment_only; agreement: uncertain; reasons: text_stable_but_alignment_incomplete; flags: possible_ocr_artifact, uncertain_alignment
 
