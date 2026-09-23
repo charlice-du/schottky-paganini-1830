@@ -1,0 +1,74 @@
+{
+  "work": {
+    "author": "Julius Max Schottky",
+    "title": "Paganini's Leben und Treiben als Künstler und als Mensch, mit unpartheiischer Berücksichtigung der Meinungen seiner Anhänger und Gegner",
+    "publication_place": "Prag",
+    "publication_year": 1830,
+    "language": "de"
+  },
+  "local_primary": {
+    "path": "1830年版朱利叶斯版传记.pdf",
+    "bytes": 26543836,
+    "pdf_pages": 446,
+    "md5": "8af132b0c988de49096317a633bb7241",
+    "sha1": "480e0db4e768a8e50a96e39380ed451d0da710f0",
+    "sha256": "b2777dce80fbb4f084203faffb0648822d70d5d1e1182e283b69217cc62848bb",
+    "identity": "Exact byte-for-byte match to the Internet Archive Text PDF according to size and MD5."
+  },
+  "online_records": [
+    {
+      "id": "ia:paganinislebenun00scho",
+      "role": "primary_scan_and_ocr_baseline",
+      "record_url": "https://archive.org/details/paganinislebenun00scho",
+      "metadata_url": "https://archive.org/metadata/paganinislebenun00scho",
+      "publisher_statement": "Prag J.G. Calve",
+      "reported_image_count": 448,
+      "access_pdf_pages": 446,
+      "reported_ppi": 400,
+      "derivatives": ["Text PDF", "Grayscale PDF", "DjVuTXT", "Djvu XML", "EPUB", "hOCR", "ABBYY GZ"]
+    },
+    {
+      "id": "mdz:bsb10600235",
+      "role": "same_calve_variant_control_copy",
+      "record_url": "https://mdz-nbn-resolving.de/details:bsb10600235",
+      "manifest_v2_url": "https://api.digitale-sammlungen.de/iiif/presentation/v2/bsb10600235/manifest",
+      "publisher_statement": "Prag : Calve",
+      "extent_statement": "XII, 410 S., 5 Bl.",
+      "canvas_count": 444,
+      "catalog_note": "Mit Portr. u. 1 Facsimile",
+      "visual_audit": "Canvases 1-8 and 437-444 inspected. Canvas 5 is title; 431-440 are index; 441-443 appear blank; no portrait or facsimile was visible despite the catalog note.",
+      "rights": "https://rightsstatements.org/vocab/NoC-NC/1.0/"
+    },
+    {
+      "id": "mdz:bsb11236465",
+      "role": "variant_copy_for_comparison",
+      "record_url": "https://mdz-nbn-resolving.de/details:bsb11236465",
+      "manifest_v2_url": "https://api.digitale-sammlungen.de/iiif/presentation/v2/bsb11236465/manifest",
+      "publisher_statement": "Prag : Taussig",
+      "extent_statement": "III, XII, 415 S.",
+      "canvas_count": 440,
+      "rights": "https://rightsstatements.org/vocab/NoC-NC/1.0/"
+    },
+    {
+      "id": "google-books:KD5DAAAAcAAJ",
+      "role": "additional_free_full_view_record",
+      "record_url": "https://play.google.com/store/books/details?id=KD5DAAAAcAAJ",
+      "publisher_statement": "Calve",
+      "reported_pages": 410,
+      "availability_observed": "Free ebook/full view record; direct API request was rate-limited during audit."
+    },
+    {
+      "id": "openlibrary:OL6951709M",
+      "role": "bibliographic_cross_reference",
+      "record_url": "https://openlibrary.org/books/OL6951709M",
+      "work_url": "https://openlibrary.org/works/OL7071333W"
+    }
+  ],
+  "decision": {
+    "base_copy": "ia:paganinislebenun00scho / local_primary",
+    "control_copy": "mdz:bsb10600235",
+    "variant_copy": "mdz:bsb11236465",
+    "text_baseline": "Internet Archive DjVu XML OCR",
+    "repository_policy": "Do not commit scans or page images until redistribution terms are explicitly cleared."
+  }
+}

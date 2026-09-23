@@ -1,0 +1,311 @@
+{
+  "generated_at": "2026-08-10T10:06:00.305909+00:00",
+  "tesseract": "tesseract.exe",
+  "version": "tesseract v5.4.0.20240606",
+  "tessdata_dir": "tools/tessdata_best",
+  "model_sha256": {
+    "deu_latf": "429b8c33d37e1a4823a2bb082a644ff13e252f735b7945e08a518d22ddcc459e",
+    "Fraktur": "29a867a25f1b00a5e9827356582515619d5102688bc1d14015789c78941116ee",
+    "Latin": "cf7216998bf7f363f18e3def04cc6b28ae954d2a5a3bdad09f743c9d3538ef35"
+  },
+  "configs": [
+    {
+      "id": "tesseract-deu-latf-psm3",
+      "language": "deu_latf",
+      "psm": 3,
+      "description": "German Fraktur model with automatic page segmentation"
+    },
+    {
+      "id": "tesseract-deu-latf-psm6",
+      "language": "deu_latf",
+      "psm": 6,
+      "description": "German Fraktur model assuming one uniform text block"
+    },
+    {
+      "id": "tesseract-fraktur-psm3",
+      "language": "Fraktur",
+      "psm": 3,
+      "description": "Multilingual Fraktur script model with automatic page segmentation"
+    },
+    {
+      "id": "tesseract-latin-psm3",
+      "language": "Latin",
+      "psm": 3,
+      "pages": [
+        5,
+        43,
+        44,
+        266,
+        420
+      ],
+      "description": "Antiqua-oriented Latin script model, limited to mixed-language pilot pages"
+    }
+  ],
+  "runs": [
+    {
+      "config": "tesseract-deu-latf-psm3",
+      "page": 21,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm3",
+      "page": 60,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm3",
+      "page": 115,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm3",
+      "page": 174,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm3",
+      "page": 220,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm3",
+      "page": 266,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm3",
+      "page": 339,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm3",
+      "page": 420,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm3",
+      "page": 9,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm3",
+      "page": 5,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm3",
+      "page": 19,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm3",
+      "page": 15,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm3",
+      "page": 43,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm3",
+      "page": 44,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm3",
+      "page": 438,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm3",
+      "page": 442,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm6",
+      "page": 21,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm6",
+      "page": 60,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm6",
+      "page": 115,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm6",
+      "page": 174,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm6",
+      "page": 220,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm6",
+      "page": 266,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm6",
+      "page": 339,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm6",
+      "page": 420,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm6",
+      "page": 9,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm6",
+      "page": 5,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm6",
+      "page": 19,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm6",
+      "page": 15,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm6",
+      "page": 43,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm6",
+      "page": 44,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm6",
+      "page": 438,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-deu-latf-psm6",
+      "page": 442,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-fraktur-psm3",
+      "page": 21,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-fraktur-psm3",
+      "page": 60,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-fraktur-psm3",
+      "page": 115,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-fraktur-psm3",
+      "page": 174,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-fraktur-psm3",
+      "page": 220,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-fraktur-psm3",
+      "page": 266,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-fraktur-psm3",
+      "page": 339,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-fraktur-psm3",
+      "page": 420,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-fraktur-psm3",
+      "page": 9,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-fraktur-psm3",
+      "page": 5,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-fraktur-psm3",
+      "page": 19,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-fraktur-psm3",
+      "page": 15,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-fraktur-psm3",
+      "page": 43,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-fraktur-psm3",
+      "page": 44,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-fraktur-psm3",
+      "page": 438,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-fraktur-psm3",
+      "page": 442,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-latin-psm3",
+      "page": 5,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-latin-psm3",
+      "page": 43,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-latin-psm3",
+      "page": 44,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-latin-psm3",
+      "page": 266,
+      "status": "skipped_existing"
+    },
+    {
+      "config": "tesseract-latin-psm3",
+      "page": 420,
+      "status": "skipped_existing"
+    }
+  ]
+}

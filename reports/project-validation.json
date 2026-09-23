@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-09-23T19:57:20.935114+00:00",
+  "status": "ready_for_human_review",
+  "errors": [],
+  "warnings": [
+    "Human ground truth complete: 2/15"
+  ],
+  "counts": {
+    "page_map_rows": 446,
+    "pilot_pages": 16,
+    "pilot_images": 16,
+    "ocr_pages_by_candidate": {
+      "internet_archive": 16,
+      "tesseract-deu-latf-psm3": 16,
+      "tesseract-deu-latf-psm6": 16,
+      "tesseract-fraktur-psm3": 16,
+      "tesseract-latin-psm3": 5
+    },
+    "ground_truth_complete": 2,
+    "ground_truth_required": 15
+  }
+}

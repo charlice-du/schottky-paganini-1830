@@ -1,0 +1,41 @@
+{
+  "generated_at": "2026-08-10T10:05:59.494322+00:00",
+  "pdf": "1830年版朱利叶斯版传记.pdf",
+  "observed": {
+    "bytes": 26543836,
+    "pdf_pages": 446,
+    "md5": "8af132b0c988de49096317a633bb7241",
+    "sha1": "480e0db4e768a8e50a96e39380ed451d0da710f0",
+    "sha256": "b2777dce80fbb4f084203faffb0648822d70d5d1e1182e283b69217cc62848bb"
+  },
+  "matches_sources_json": {
+    "bytes": true,
+    "pdf_pages": true,
+    "md5": true,
+    "sha1": true,
+    "sha256": true
+  },
+  "exact_primary_match": true,
+  "pdf_metadata": {
+    "/Creator": "Digitized by the Internet Archive",
+    "/Title": "Paganini's Leben und Treiben als Künstler und als Mensch, mit unpartheiischer Berücksichtigung der Meinungen seiner Anhänger und Gegner",
+    "/Keywords": "http://www.archive.org/details/paganinislebenun00scho",
+    "/Author": "Schottky, Julius Max, 1794-1849",
+    "/CreationDate": "D:20110216073205Z",
+    "/Producer": "Recoded by LuraDocument PDF v2.28",
+    "/ModDate": "D:20110216082125Z00'00'"
+  },
+  "page_size_counts": {
+    "352.000x558.000pt": 1,
+    "331.000x553.000pt": 8,
+    "338.000x553.000pt": 14,
+    "329.000x552.000pt": 422,
+    "571.000x481.000pt": 1
+  },
+  "embedded_text": {
+    "pages_with_text": 440,
+    "characters": 771240,
+    "whitespace_characters": 1220,
+    "whitespace_ratio": 0.0015818681603651263
+  }
+}

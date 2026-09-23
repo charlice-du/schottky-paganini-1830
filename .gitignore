@@ -1,0 +1,15 @@
+# User-provided source books (never publish by default)
+/*.pdf
+
+# Rebuildable or locally downloaded material
+/tmp/
+/pilot/images/*
+!/pilot/images/.gitkeep
+/sources/cache/
+/tools/
+
+# Python and editor noise
+__pycache__/
+*.py[cod]
+.DS_Store
+Thumbs.db

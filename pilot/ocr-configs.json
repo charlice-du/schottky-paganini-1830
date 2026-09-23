@@ -1,0 +1,27 @@
+[
+  {
+    "id": "tesseract-deu-latf-psm3",
+    "language": "deu_latf",
+    "psm": 3,
+    "description": "German Fraktur model with automatic page segmentation"
+  },
+  {
+    "id": "tesseract-deu-latf-psm6",
+    "language": "deu_latf",
+    "psm": 6,
+    "description": "German Fraktur model assuming one uniform text block"
+  },
+  {
+    "id": "tesseract-fraktur-psm3",
+    "language": "Fraktur",
+    "psm": 3,
+    "description": "Multilingual Fraktur script model with automatic page segmentation"
+  },
+  {
+    "id": "tesseract-latin-psm3",
+    "language": "Latin",
+    "psm": 3,
+    "pages": [5, 43, 44, 266, 420],
+    "description": "Antiqua-oriented Latin script model, limited to mixed-language pilot pages"
+  }
+]

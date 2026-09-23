@@ -1,0 +1,17 @@
+order,pdf_page,printed_page,section,feature,score_text,priority,reason
+1,21,1,正文,正文起始页,true,high,典型单栏 Fraktur 与标题层级
+2,60,40,正文,正文与长脚注,true,high,主区与脚注字体尺寸不同并需保持阅读顺序
+3,115,95,正文,普通正文,true,high,代表中部扫描质量与长段落
+4,174,154,正文,章节标题,true,high,标题和正文混排
+5,220,200,正文,引文与报道,true,high,引号和报道体文本
+6,266,246,正文,章节起始与多语混排,true,high,德文 Fraktur 英文和拉丁文 Antiqua 以及脚注共页
+7,339,319,正文,名单与公文,true,medium,专名缩写数字较多
+8,420,400,正文,末段正文,true,medium,接近正文末尾并含复杂标点
+9,9,I,前言,Fraktur 前言,true,medium,罗马页码和前言体例
+10,5,,书名页,书名页,true,medium,字号跨度和 Antiqua/Fraktur 混排
+11,19,,目录,目录版式,true,medium,点线页码和多层条目
+12,15,VII,前言,平行双栏,true,medium,页末两种报刊文字并排且含少量 Antiqua
+13,43,23,正文,离合诗第一页,true,high,首字母纵向拼成 PAGANINI 的版面巧思
+14,44,24,正文,离合诗第二页,true,high,诗歌续页与 Antiqua 混排
+15,438,,索引,密集索引,true,medium,专名数字和多个索引分区的阅读顺序
+16,442,,折页附图,手稿摹真,false,low,手写意大利文及可能的音乐材料；只做视觉路线评估
