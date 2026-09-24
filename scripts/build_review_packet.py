@@ -1,0 +1,691 @@
+#!/usr/bin/env python3
+"""Build a deterministic, non-authoritative OCR comparison packet for one PDF page."""
+
+from __future__ import annotations
+
+import argparse
+import csv
+import json
+import re
+import unicodedata
+from collections import Counter
+from dataclasses import dataclass
+from difflib import SequenceMatcher
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[1]
+MIN_MATCH = 0.68
+HIGH_MATCH = 0.82
+FENCE = chr(96) * 3
+TYPOGRAPHIC = str.maketrans(
+    {"ſ": "s", "ﬀ": "ff", "ﬁ": "fi", "ﬂ": "fl", "ﬃ": "ffi", "ﬄ": "ffl"}
+)
+SUSPECT_SYMBOLS = set("<>[]{}^$@|")
+SUSPECT_INTERNAL = SUSPECT_SYMBOLS | set(":?")
+LINE_END_HYPHENS = ("-", "‐", "‑", "=")
+PRIORITY_ORDER = {"high": 0, "medium": 1, "low": 2, "alignment_only": 3}
+
+
+@dataclass(frozen=True)
+class Match:
+    anchor_start: int
+    anchor_end: int
+    other_start: int
+    other_end: int
+    similarity: float
+
+
+def comparison_text(value: str) -> str:
+    """Only for comparison: NFC, selected typographic variants, case, whitespace."""
+    value = unicodedata.normalize("NFC", value).translate(TYPOGRAPHIC).lower()
+    return " ".join(value.split())
+
+
+def alignment_key(value: str) -> str:
+    """Ignore punctuation for alignment, but retain it in the OCR and flags."""
+    normalized = comparison_text(value)
+    cleaned = ("".join(ch for ch in word if ch.isalnum()) for word in normalized.split())
+    return " ".join(word for word in cleaned if word)
+
+
+def similarity(left: str, right: str) -> float:
+    left_key, right_key = alignment_key(left), alignment_key(right)
+    if not left_key or not right_key:
+        return 0.0
+    if min(len(left_key), len(right_key)) < 5 and left_key != right_key:
+        return 0.0
+    if min(len(left_key), len(right_key)) / max(len(left_key), len(right_key)) < 0.4:
+        return 0.0
+    return SequenceMatcher(None, left_key, right_key, autojunk=False).ratio()
+
+
+def numbered_lines(raw: str) -> list[dict]:
+    return [
+        {"number": number, "text": line}
+        for number, line in enumerate(raw.splitlines(), start=1)
+        if line.strip()
+    ]
+
+
+def choose_anchor(raw_candidates: dict[str, str]) -> str:
+    """Choose a central OCR output for alignment, not a preferred reading."""
+    names = sorted(raw_candidates)
+    if len(names) == 1:
+        return names[0]
+    tokens = {name: comparison_text(raw_candidates[name]).split() for name in names}
+    scores = {}
+    for name in names:
+        scores[name] = sum(
+            SequenceMatcher(None, tokens[name], tokens[other], autojunk=True).ratio()
+            for other in names
+            if other != name
+        ) / (len(names) - 1)
+    return sorted(names, key=lambda name: (-scores[name], name))[0]
+
+
+def align_lines(anchor: list[dict], other: list[dict]) -> tuple[list[Match], list[int]]:
+    """Monotonic dynamic programming; match 1-2 lines to 1-2 lines or leave gaps."""
+    n, m = len(anchor), len(other)
+    scores = [[float("-inf")] * (m + 1) for _ in range(n + 1)]
+    choices: list[list[tuple | None]] = [[None] * (m + 1) for _ in range(n + 1)]
+    scores[n][m] = 0.0
+    for i in range(n, -1, -1):
+        for j in range(m, -1, -1):
+            if i == n and j == m:
+                continue
+            options: list[tuple[float, tuple]] = []
+            if i < n:
+                options.append((scores[i + 1][j] - 0.2, ("skip_anchor", 1, 0, 0.0)))
+            if j < m:
+                options.append((scores[i][j + 1] - 0.2, ("skip_other", 0, 1, 0.0)))
+            for a_count in (1, 2):
+                for b_count in (1, 2):
+                    if i + a_count > n or j + b_count > m:
+                        continue
+                    left = " ".join(line["text"] for line in anchor[i : i + a_count])
+                    right = " ".join(line["text"] for line in other[j : j + b_count])
+                    ratio = similarity(left, right)
+                    if ratio >= MIN_MATCH:
+                        reward = 2 * ratio - 1 - 0.08 * (a_count + b_count - 2)
+                        options.append(
+                            (scores[i + a_count][j + b_count] + reward,
+                             ("match", a_count, b_count, ratio))
+                        )
+            scores[i][j], choices[i][j] = max(options, key=lambda item: item[0])
+
+    matches: list[Match] = []
+    unmatched_other = set(range(m))
+    i = j = 0
+    while i < n or j < m:
+        action, a_count, b_count, ratio = choices[i][j]
+        if action == "match":
+            matches.append(Match(i, i + a_count, j, j + b_count, ratio))
+            unmatched_other.difference_update(range(j, j + b_count))
+        i += a_count
+        j += b_count
+    return matches, sorted(unmatched_other)
+
+
+def anchor_spans(count: int, all_matches: dict[str, list[Match]]) -> list[tuple[int, int]]:
+    breaks = set(range(1, count))
+    for matches in all_matches.values():
+        for match in matches:
+            breaks.difference_update(range(match.anchor_start + 1, match.anchor_end))
+    boundaries = [0, *sorted(breaks), count]
+    return list(zip(boundaries, boundaries[1:]))
+
+
+def candidate_reading(
+    start: int, end: int, lines: list[dict], matches: list[Match]
+) -> dict:
+    relevant = [
+        match for match in matches
+        if start <= match.anchor_start and match.anchor_end <= end
+    ]
+    indices = sorted({
+        index
+        for match in relevant
+        for index in range(match.other_start, match.other_end)
+    })
+    covered = {
+        index
+        for match in relevant
+        for index in range(match.anchor_start, match.anchor_end)
+    }
+    if not relevant:
+        quality = "unaligned"
+    elif covered == set(range(start, end)) and all(
+        match.similarity >= HIGH_MATCH for match in relevant
+    ):
+        quality = "aligned"
+    else:
+        quality = "uncertain"
+    return {
+        "line_numbers": [lines[index]["number"] for index in indices],
+        "text": "\n".join(lines[index]["text"] for index in indices),
+        "alignment": quality,
+        "similarity": round(min((match.similarity for match in relevant), default=0.0), 3),
+        "anchor_coverage": round(len(covered) / (end - start), 3),
+    }
+
+
+def difference_examples(readings: dict[str, dict], limit: int = 6) -> list[str]:
+    trusted = [
+        (name, comparison_text(item["text"]).split())
+        for name, item in readings.items()
+        if item["alignment"] in {"anchor", "aligned"}
+    ]
+    examples = []
+    pairs = [
+        (left_name, left_tokens, right_name, right_tokens)
+        for index, (left_name, left_tokens) in enumerate(trusted)
+        for right_name, right_tokens in trusted[index + 1 :]
+    ]
+    pairs.sort(
+        key=lambda pair: (
+            -SequenceMatcher(None, pair[1], pair[3], autojunk=False).ratio(),
+            pair[0],
+            pair[2],
+        )
+    )
+    for left_name, left_tokens, right_name, right_tokens in pairs:
+        matcher = SequenceMatcher(None, left_tokens, right_tokens, autojunk=False)
+        for tag, i1, i2, j1, j2 in matcher.get_opcodes():
+            if tag == "equal":
+                continue
+            left = " ".join(left_tokens[i1:i2])[:45] or "∅"
+            right = " ".join(right_tokens[j1:j2])[:45] or "∅"
+            item = f"{left_name}: {left} / {right_name}: {right}"
+            if item not in examples:
+                examples.append(item)
+            if len(examples) >= limit:
+                return examples
+    return examples
+
+
+def suspicious_tokens(readings: dict[str, dict]) -> dict[str, list[str]]:
+    found: dict[str, list[str]] = {
+        "possible_ocr_artifact": [],
+        "suspicious_internal_symbol": [],
+        "possible_digit_letter_confusion": [],
+    }
+    for name, item in readings.items():
+        for token in re.findall(r"\S+", item["text"]):
+            label = f"{name}: {token}"
+            if any(char in SUSPECT_SYMBOLS for char in token):
+                found["possible_ocr_artifact"].append(label)
+            if any(
+                char in SUSPECT_INTERNAL
+                and position > 0
+                and position + 1 < len(token)
+                and token[position - 1].isalpha()
+                and token[position + 1].isalpha()
+                for position, char in enumerate(token)
+            ):
+                found["suspicious_internal_symbol"].append(label)
+            if any(
+                (left.isalpha() and right.isdigit())
+                or (left.isdigit() and right.isalpha())
+                for left, right in zip(token, token[1:])
+            ):
+                found["possible_digit_letter_confusion"].append(label)
+    return found
+
+
+def segment_flags(readings: dict[str, dict]) -> tuple[str, list[dict]]:
+    trusted = [
+        item["text"] for item in readings.values()
+        if item["alignment"] in {"anchor", "aligned"}
+    ]
+    normalized = [comparison_text(text) for text in trusted]
+    if len(trusted) >= 2 and len(set(normalized)) > 1:
+        agreement = "low"
+    elif len(trusted) >= 2 and all(
+        item["alignment"] in {"anchor", "aligned"} for item in readings.values()
+    ):
+        agreement = "high"
+    else:
+        agreement = "uncertain"
+
+    flags = []
+    if agreement == "low":
+        flags.append({
+            "category": "candidate_disagreement",
+            "examples": difference_examples(readings),
+        })
+        without_punctuation = [alignment_key(text) for text in normalized]
+        if len(set(without_punctuation)) == 1:
+            flags.append({"category": "punctuation_disagreement", "examples": []})
+    hyphen_states = {
+        any(line.rstrip().endswith(LINE_END_HYPHENS) for line in item["text"].splitlines())
+        for item in readings.values()
+        if item["alignment"] in {"anchor", "aligned"} and item["text"]
+    }
+    if len(hyphen_states) > 1:
+        flags.append({"category": "line_end_hyphen_disagreement", "examples": []})
+    suspicious = suspicious_tokens(readings)
+    for category, examples in suspicious.items():
+        if examples:
+            flags.append({
+                "category": category,
+                "count": len(examples),
+                "examples": examples[:8],
+            })
+    if any(item["alignment"] == "unaligned" for item in readings.values()):
+        flags.append({"category": "unaligned", "examples": []})
+    elif any(item["alignment"] == "uncertain" for item in readings.values()):
+        flags.append({"category": "uncertain_alignment", "examples": []})
+    return agreement, flags
+
+
+def lexical_key(value: str) -> str:
+    """Comparison-only key that also joins ordinary line-end hyphenation."""
+    normalized = comparison_text(value)
+    joined = re.sub(r"(?<=\w)[-‐‑=]\s+(?=\w)", "", normalized)
+    return " ".join(alignment_key(joined).split())
+
+
+def has_digit_letter_pair(token: str) -> bool:
+    return any(
+        (left.isalpha() and right.isdigit())
+        or (left.isdigit() and right.isalpha())
+        for left, right in zip(token, token[1:])
+    )
+
+
+def review_priority(readings: dict[str, dict]) -> tuple[str, list[str]]:
+    """Rank inspection effort, never OCR correctness or transcription confidence."""
+    trusted = {
+        name: item["text"]
+        for name, item in readings.items()
+        if item["alignment"] in {"anchor", "aligned"} and item["text"]
+    }
+    incomplete_alignment = any(
+        item["alignment"] in {"uncertain", "unaligned"}
+        for item in readings.values()
+    )
+    if len(trusted) < 2:
+        return "alignment_only", ["fewer_than_two_well_aligned_readings"]
+
+    keys = [lexical_key(text) for text in trusted.values()]
+    artifact_support: dict[str, set[str]] = {}
+    for name, text in trusted.items():
+        for token in re.findall(r"\S+", text):
+            suspect = (
+                any(char in SUSPECT_SYMBOLS for char in token)
+                or has_digit_letter_pair(token)
+            )
+            if suspect and len(token) >= 3 and any(char.isalnum() for char in token):
+                artifact_support.setdefault(comparison_text(token), set()).add(name)
+    if any(len(names) >= 2 for names in artifact_support.values()):
+        return "high", ["repeated_suspicious_token_in_well_aligned_readings"]
+
+    single_artifact = bool(artifact_support)
+    numeric_readings = [tuple(re.findall(r"\d+", text)) for text in trusted.values()]
+    long_number_sequences = [
+        tuple(number for number in numbers if len(number) >= 3)
+        for numbers in numeric_readings
+    ]
+    if (
+        any(long_number_sequences)
+        and sum(bool(numbers) for numbers in numeric_readings) >= 2
+        and len(set(long_number_sequences)) > 1
+    ):
+        return "high", ["competing_numeric_readings"]
+    if len(set(keys)) == 1:
+        if single_artifact:
+            return "medium", ["isolated_suspicious_token"]
+        if incomplete_alignment:
+            return "alignment_only", ["text_stable_but_alignment_incomplete"]
+        return "low", ["formatting_only_or_identical"]
+
+    support = Counter(keys)
+    if sum(count >= 2 for count in support.values()) >= 2:
+        return "high", ["competing_supported_lexical_readings"]
+    if max(support.values()) > len(keys) / 2:
+        return "medium", ["exact_consensus_with_lexical_outlier"]
+
+    pair_scores = []
+    for index, left in enumerate(keys):
+        for right in keys[index + 1 :]:
+            char_ratio = SequenceMatcher(None, left, right, autojunk=False).ratio()
+            token_ratio = SequenceMatcher(
+                None, left.split(), right.split(), autojunk=False
+            ).ratio()
+            pair_scores.append((char_ratio, token_ratio))
+    min_char = min(score[0] for score in pair_scores)
+    min_token = min(score[1] for score in pair_scores)
+    near_support = max(
+        sum(
+            SequenceMatcher(None, key, other, autojunk=False).ratio() >= 0.94
+            for other in keys
+        )
+        for key in keys
+    )
+    if near_support > len(keys) / 2 and near_support < len(keys):
+        return "medium", ["near_consensus_with_outlier"]
+    if single_artifact:
+        return "medium", ["isolated_suspicious_token", "lexical_difference"]
+    if min_char < 0.82 or min_token < 0.65:
+        return "high", ["substantial_lexical_difference_without_majority"]
+    if min_char >= 0.985 and min_token >= 0.90:
+        return "low", ["very_small_lexical_difference"]
+    return "medium", ["limited_lexical_difference"]
+
+
+def ordered_review_segments(segments: list[dict]) -> list[dict]:
+    return sorted(
+        segments,
+        key=lambda segment: (
+            PRIORITY_ORDER[segment["review_priority"]],
+            int(segment["id"][1:]),
+        ),
+    )
+
+
+def unaligned_blocks(lines: list[dict], indices: list[int], name: str) -> list[dict]:
+    blocks = []
+    for index in indices:
+        if blocks and index == blocks[-1]["last_index"] + 1:
+            blocks[-1]["last_index"] = index
+            blocks[-1]["line_numbers"].append(lines[index]["number"])
+            blocks[-1]["text"] += "\n" + lines[index]["text"]
+        else:
+            blocks.append({
+                "candidate": name,
+                "last_index": index,
+                "line_numbers": [lines[index]["number"]],
+                "text": lines[index]["text"],
+                "reason": "unaligned",
+            })
+    for block in blocks:
+        del block["last_index"]
+    return blocks
+
+
+def metadata_row(path: Path, page: int) -> dict:
+    with path.open(encoding="utf-8-sig", newline="") as stream:
+        return next(
+            (row for row in csv.DictReader(stream) if int(row["pdf_page"]) == page),
+            {},
+        )
+
+
+def build_packet(page: int, root: Path = ROOT) -> dict:
+    if page < 1:
+        raise ValueError("PDF page must be positive")
+    page_map = metadata_row(root / "data" / "page-map.csv", page)
+    if not page_map:
+        raise ValueError(f"PDF page {page} is absent from data/page-map.csv")
+    review = metadata_row(root / "pilot" / "ground_truth" / "review-log.csv", page)
+    selection = metadata_row(root / "pilot" / "selection.csv", page)
+
+    raw_candidates, unavailable, empty = {}, [], []
+    for directory in sorted((root / "pilot" / "ocr").iterdir()):
+        if not directory.is_dir():
+            continue
+        path = directory / f"page-{page:03d}.txt"
+        if path.is_file():
+            raw = path.read_text(encoding="utf-8-sig")
+            if alignment_key(raw):
+                raw_candidates[directory.name] = raw
+            else:
+                empty.append(directory.name)
+        else:
+            unavailable.append(directory.name)
+    if not raw_candidates:
+        raise ValueError(f"No usable OCR candidates for PDF page {page}")
+
+    anchor_name = choose_anchor(raw_candidates)
+    lines = {name: numbered_lines(raw) for name, raw in raw_candidates.items()}
+    anchor = lines[anchor_name]
+    matches_by_candidate = {}
+    unaligned = []
+    for name in sorted(raw_candidates):
+        if name == anchor_name:
+            continue
+        matches, unmatched = align_lines(anchor, lines[name])
+        matches_by_candidate[name] = matches
+        unaligned.extend(unaligned_blocks(lines[name], unmatched, name))
+
+    segments = []
+    for number, (start, end) in enumerate(
+        anchor_spans(len(anchor), matches_by_candidate), start=1
+    ):
+        readings = {}
+        for name in sorted(raw_candidates):
+            if name == anchor_name:
+                selected = anchor[start:end]
+                readings[name] = {
+                    "line_numbers": [line["number"] for line in selected],
+                    "text": "\n".join(line["text"] for line in selected),
+                    "alignment": "anchor",
+                    "similarity": 1.0,
+                    "anchor_coverage": 1.0,
+                }
+            else:
+                readings[name] = candidate_reading(
+                    start, end, lines[name], matches_by_candidate[name]
+                )
+        agreement, flags = segment_flags(readings)
+        priority, priority_reasons = review_priority(readings)
+        segments.append({
+            "id": f"S{number:03d}",
+            "anchor_line_numbers": [line["number"] for line in anchor[start:end]],
+            "agreement": agreement,
+            "review_priority": priority,
+            "priority_reasons": priority_reasons,
+            "readings": readings,
+            "flags": flags,
+        })
+
+    counts = Counter(segment["agreement"] for segment in segments)
+    priority_counts = Counter(segment["review_priority"] for segment in segments)
+    return {
+        "schema_version": 1,
+        "pdf_page": page,
+        "printed_label": page_map["printed_label"] or None,
+        "ia_leaf": int(page_map["ia_leaf"]) if page_map["ia_leaf"] else None,
+        "review_status": review.get("status") or "not_started",
+        "selected_feature": selection.get("feature") or None,
+        "alignment_anchor": anchor_name,
+        "available_candidates": sorted(raw_candidates),
+        "unavailable_candidates": unavailable,
+        "empty_candidates": empty,
+        "comparison_normalization": (
+            "Unicode NFC; long s and selected ligatures expanded; lowercase; "
+            "whitespace collapsed. Punctuation is ignored only for alignment."
+        ),
+        "agreement_counts": {
+            name: counts[name] for name in ("high", "low", "uncertain")
+        },
+        "priority_counts": {
+            name: priority_counts[name] for name in PRIORITY_ORDER
+        },
+        "segments": segments,
+        "unaligned_candidate_lines": unaligned,
+        "raw_candidates": raw_candidates,
+    }
+
+
+def short(value: str, limit: int = 100) -> str:
+    value = " ".join(value.split()).replace("|", "\\|")
+    return value if len(value) <= limit else value[: limit - 1] + "…"
+
+
+def append_review_table(lines: list[str], segments: list[dict]) -> None:
+    lines.extend([
+        "| Segment | Agreement | Priority reason | Flags | Examples |",
+        "|---|---|---|---|---|",
+    ])
+    for segment in segments:
+        reasons = ", ".join(
+            reason.replace("_", " ") for reason in segment["priority_reasons"]
+        )
+        categories = ", ".join(flag["category"] for flag in segment["flags"]) or "none"
+        examples = [
+            example for flag in segment["flags"]
+            for example in flag.get("examples", [])[:2]
+        ]
+        lines.append(
+            f"| {segment['id']} | {segment['agreement']} | {short(reasons, 90)} | "
+            f"{short(categories, 90)} | {short('; '.join(examples), 130)} |"
+        )
+    if not segments:
+        lines.append("| — | — | None | — | — |")
+    lines.append("")
+
+
+def append_candidate_readings(lines: list[str], segments: list[dict]) -> None:
+    for segment in segments:
+        numbers = ", ".join(str(number) for number in segment["anchor_line_numbers"])
+        lines.extend([
+            f"### {segment['id']} · anchor OCR line(s) {numbers}",
+            "",
+            f"Inspection priority: {segment['review_priority']}; "
+            f"agreement: {segment['agreement']}; "
+            f"reasons: {', '.join(segment['priority_reasons'])}; "
+            f"flags: {', '.join(flag['category'] for flag in segment['flags']) or 'none'}",
+            "",
+        ])
+        for name, item in segment["readings"].items():
+            numbers = ", ".join(str(number) for number in item["line_numbers"]) or "none"
+            lines.extend([
+                f"**{name}** — lines {numbers}; alignment: {item['alignment']}"
+                f" (similarity {item['similarity']:.3f}; "
+                f"anchor coverage {item['anchor_coverage']:.0%})",
+                "",
+                f"{FENCE}text",
+                item["text"] or "[no confidently aligned text]",
+                FENCE,
+                "",
+            ])
+
+
+def render_markdown(packet: dict) -> str:
+    lines = [
+        f"# OCR review packet — PDF page {packet['pdf_page']}",
+        "",
+        f"Printed page: {packet['printed_label'] or 'not recorded'}",
+        f"IA leaf: {packet['ia_leaf'] if packet['ia_leaf'] is not None else 'not recorded'}",
+        f"Review status: {packet['review_status']}",
+        f"Selected feature: {packet['selected_feature'] or 'not recorded'}",
+        "",
+        "**Inspection queue only.** Priority is neither OCR correctness nor "
+        "transcription confidence. No candidate is designated correct; check "
+        "the scan and control copy before changing gold-standard text.",
+        "",
+        f"Candidates available: {', '.join(packet['available_candidates'])}",
+        f"Candidates without this page: {', '.join(packet['unavailable_candidates']) or 'none'}",
+        f"Candidates with empty/unusable OCR: {', '.join(packet['empty_candidates']) or 'none'}",
+        f"Alignment anchor (not a quality ranking): {packet['alignment_anchor']}",
+        f"Comparison normalization: {packet['comparison_normalization']}",
+        "",
+        "## Summary",
+        "",
+        f"- High-priority review targets: {packet['priority_counts']['high']}",
+        f"- Medium-priority targets: {packet['priority_counts']['medium']}",
+        f"- Low-priority targets: {packet['priority_counts']['low']}",
+        f"- Alignment-only / uncertain regions: {packet['priority_counts']['alignment_only']}",
+        "",
+        "Agreement is descriptive and separate from inspection priority:",
+        "",
+        f"- High agreement: {packet['agreement_counts']['high']} segment(s)",
+        f"- Low agreement: {packet['agreement_counts']['low']} segment(s)",
+        f"- Uncertain agreement: {packet['agreement_counts']['uncertain']} segment(s)",
+        f"- Unaligned candidate blocks: {len(packet['unaligned_candidate_lines'])}",
+        "",
+    ]
+    ordered = ordered_review_segments(packet["segments"])
+    queues = {
+        name: [segment for segment in ordered if segment["review_priority"] == name]
+        for name in PRIORITY_ORDER
+    }
+    lines.extend(["## High-priority review targets", ""])
+    append_review_table(lines, queues["high"])
+    lines.extend(["### High-priority candidate readings", ""])
+    append_candidate_readings(lines, queues["high"])
+
+    for name, heading in (
+        ("medium", "Medium-priority review targets"),
+        ("low", "Low-priority review targets"),
+        ("alignment_only", "Alignment-only / uncertain regions"),
+    ):
+        lines.extend([f"## {heading}", ""])
+        append_review_table(lines, queues[name])
+
+    lines.extend([
+        "## Other candidate readings",
+        "",
+        "Full original OCR and alignment data are also retained in the JSON packet.",
+        "",
+        "<details>",
+        "<summary>Show medium, low, and alignment-only candidate readings</summary>",
+        "",
+    ])
+    append_candidate_readings(
+        lines, queues["medium"] + queues["low"] + queues["alignment_only"]
+    )
+    lines.extend(["</details>", ""])
+
+    lines.extend(["", "## Unaligned candidate lines", ""])
+    for block in packet["unaligned_candidate_lines"]:
+        numbers = ", ".join(str(number) for number in block["line_numbers"])
+        lines.extend([
+            f"### {block['candidate']} · OCR line(s) {numbers}",
+            "",
+            f"{FENCE}text",
+            block["text"],
+            FENCE,
+            "",
+        ])
+    if not packet["unaligned_candidate_lines"]:
+        lines.append("None.")
+    lines.extend([
+        "",
+        "Alignment is monotonic and compares one or two OCR lines against one or two "
+        "lines using punctuation-insensitive text similarity. Weak matches are "
+        "marked uncertain; skipped lines are unaligned. The anchor is selected "
+        "by cross-candidate similarity, not assumed accuracy. Flags are prompts "
+        "for human inspection, not corrections.",
+        "",
+    ])
+    return "\n".join(lines)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("pdf_page", type=int, help="physical PDF page number")
+    parser.add_argument(
+        "--output-dir", type=Path, default=ROOT / "reports" / "review",
+        help="directory for page-NNN.md and page-NNN.json",
+    )
+    args = parser.parse_args()
+    try:
+        packet = build_packet(args.pdf_page)
+    except ValueError as exc:
+        parser.error(str(exc))
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+    base = args.output_dir / f"page-{args.pdf_page:03d}"
+    base.with_suffix(".json").write_text(
+        json.dumps(packet, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    base.with_suffix(".md").write_text(
+        render_markdown(packet), encoding="utf-8", newline="\n"
+    )
+    print(
+        f"Wrote {base.with_suffix('.md')} and {base.with_suffix('.json')} "
+        f"({len(packet['segments'])} segments, "
+        f"{packet['priority_counts']['high']} high priority, "
+        f"{packet['priority_counts']['medium']} medium, "
+        f"{packet['priority_counts']['low']} low, "
+        f"{packet['priority_counts']['alignment_only']} alignment-only)."
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
