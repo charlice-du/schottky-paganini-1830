@@ -2,6 +2,8 @@
 
 The review-packet generator compares **existing OCR candidate texts** for one physical PDF page. It helps a human find disagreements and suspicious OCR shapes before checking the scan and control copy. It does not produce, edit, or verify a transcription.
 
+For a local, read-only browser view of the packet alongside the scan and current human text, see [the review workspace guide](local-review-workspace.md).
+
 Run from the repository root with Python 3.10+:
 
 ```powershell
