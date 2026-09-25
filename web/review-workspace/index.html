@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Local transcription review</title>
+  <link rel="stylesheet" href="/app.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="masthead">
+    <div>
+      <p class="eyebrow">Schottky–Paganini · local research tool</p>
+      <h1>Transcription review workspace</h1>
+      <p id="page-context" class="page-context">Loading page…</p>
+      <p id="candidate-availability" class="candidate-availability"></p>
+    </div>
+    <div id="review-status" class="status">Loading</div>
+  </header>
+
+  <div class="safety-note" role="note">
+    <strong>Inspection only.</strong> Priority is not OCR correctness, transcription
+    confidence, or proof that a majority reading is right. Check the scan and,
+    where needed, the control copy. Nothing here edits or verifies a page.
+  </div>
+  <div id="error" class="error" role="alert" hidden></div>
+
+  <main class="workspace" id="workspace" hidden>
+    <section class="panel scan-panel" aria-labelledby="scan-heading">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Primary source</p>
+          <h2 id="scan-heading">Local page scan</h2>
+        </div>
+        <div class="zoom-controls" aria-label="Scan zoom">
+          <button id="zoom-out" type="button" title="Zoom out">−</button>
+          <button id="zoom-reset" type="button" title="Fit width">Fit</button>
+          <button id="zoom-in" type="button" title="Zoom in">+</button>
+        </div>
+      </div>
+      <div id="scan-viewport" class="scan-viewport">
+        <img id="scan-image" alt="Local scan of the selected PDF page" hidden>
+        <div id="image-unavailable" class="image-unavailable" hidden>
+          This page image is not available locally. Restore its excluded
+          <code>pilot/images/page-NNN.png</code> file to view the scan.
+        </div>
+      </div>
+      <p class="panel-footnote">OCR line numbers do not locate words on the scan. No image region is highlighted.</p>
+    </section>
+
+    <section class="panel review-panel" aria-labelledby="queue-heading">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">OCR comparison</p>
+          <h2 id="queue-heading">Inspection queue</h2>
+        </div>
+        <span id="queue-position" class="queue-position"></span>
+      </div>
+      <div id="queue-tabs" class="queue-tabs" role="group" aria-label="Inspection priority"></div>
+      <div class="review-content">
+        <nav id="segment-list" class="segment-list" aria-label="Segments in selected priority"></nav>
+        <div class="segment-detail">
+          <div class="segment-toolbar">
+            <button id="previous-segment" type="button">← Previous</button>
+            <button id="next-segment" type="button">Next →</button>
+          </div>
+          <div id="segment-heading"></div>
+          <div id="segment-reasons" class="segment-reasons"></div>
+          <div id="candidate-readings" class="candidate-readings"></div>
+        </div>
+      </div>
+      <details class="unaligned-blocks">
+        <summary id="unaligned-heading">Unaligned OCR blocks</summary>
+        <div id="unaligned-list"></div>
+      </details>
+    </section>
+
+    <section class="panel transcription-panel" aria-labelledby="transcription-heading">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Human text · read-only</p>
+          <h2 id="transcription-heading">Current transcription</h2>
+        </div>
+        <span id="transcription-label" class="transcription-label"></span>
+      </div>
+      <p class="panel-footnote">This is the page-level transcription, not a segment-aligned answer key. A nonempty draft is not automatically verified.</p>
+      <pre id="transcription-text" class="transcription-text"></pre>
+    </section>
+  </main>
+
+  <footer>
+    Local-only view · source images remain outside Git · no Save or verification action
+  </footer>
+</body>
+</html>
